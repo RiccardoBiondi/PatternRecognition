@@ -8,19 +8,18 @@ class Completion{
     Eigen:: MatrixXd m_EDM;
 
     //some private functions
-    Eigen::MatrixXd EVThreshold(const Eigen::MatrixXd &D,unsigned int r);
+    Eigen::MatrixXd evThreshold(const Eigen::MatrixXd &D,unsigned int r);
 
   public:
     Completion();
     Completion(Eigen::MatrixXd t_EDM);
     Completion(const Completion<N,d> & original);
+    ~Completion();
 
     Eigen::MatrixXd getEDM() const;
 
 
 };
-
-#endif
 
 
 template<unsigned int N, unsigned int d>
@@ -31,9 +30,17 @@ template<unsigned int N, unsigned int d>
 Completion<N,d>:: Completion(){};
 
 template<unsigned int N, unsigned int d>
-Completion<N,d>:: Completion(Eigen::MatrixXd t_EDM): m_EDM(t_EDM);
+Completion<N,d>:: Completion(Eigen::MatrixXd t_EDM): m_EDM(t_EDM){};
 
 template<unsigned int N, unsigned int d>
 Completion<N,d>:: Completion(const Completion<N,d>& original ){
   m_EDM = oriinal.getEDM();
 }
+
+template<unsigned int N ,unsigned int d>
+Completion<N,d>:: ~Completion(){};
+
+
+
+
+#endif
