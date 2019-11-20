@@ -19,21 +19,21 @@ private:
   Eigen::MatrixXd m_EDM;
   /**
   < NxN matrix of eculeidean distances. The entires type is T */
-  void swap(Eigen::VectorXcd& eigenvalues,
-            Eigen::MatrixXcd& eigenvactors,
+  void swap(Eigen::VectorXcd& t_eigenvalues,
+            Eigen::MatrixXcd& t_eigenvactors,
             unsigned int i, unsigned int j);
           /**This func swap  the i-th and j-th eigenvalues.
           */
 
-  void sort(Eigen::VectorXcd& eigenvalues, Eigen::MatrixXcd& eigenvectors);
+  void sort(Eigen::VectorXcd& t_eigenvalues,Eigen::MatrixXcd& t_eigenvectors);
           /*
           This method sort the eigenvalues in defcreasing order
           */
-  void set_zero(Eigen::VectorXcd& sorted_eigenvalues);
+  void set_zero(Eigen::VectorXcd& t_eigenvalues);
           /*
           This method set to 0 all the n-d smallest eigenvalues
           */
-  void eigen_radq(Eigen::VectorXcd& eigenvalues);
+  void eigen_sqrt(Eigen::VectorXcd& t_eigenvalues);
           /*
            *This method is used to take the square root of the eigenvalues
            *belonghing form the MDS algorithm
@@ -41,9 +41,8 @@ private:
 
   public:
     MDS(); /*default costructor*/
-    MDS(Eigen::MatrixXd t_EDM); /*Parametric
-    *costructor*/
-    MDS(const MDS & original);  /*Copy constructor*/
+    MDS(Eigen::MatrixXd t_EDM); /*Parametric costructor*/
+    MDS(const MDS & t_original);  /*Copy constructor*/
    ~MDS();
 
     //getter
@@ -51,11 +50,12 @@ private:
 
     /*Start method declaration*/
 
-    /** < This function implements the classical multidimensional scaling.
+
+    Eigen:: MatrixXcd classicalMDS();/** < This function implements the
+    *classical multidimensional scaling.
     *Will return an dxn matrix where d-> is the euclidean space dimension
     *(usually 2 or 3) and n is the number of points to determine.
     */
-    Eigen:: MatrixXcd classicalMDS();
 
   //  Eigen::MatrixXd AlternatingDescent(const Eigen::MatrixXd &W); //TODO
 
@@ -82,38 +82,38 @@ MDS<N,d> :: MDS(Eigen::MatrixXd t_EDM):m_EDM(t_EDM){}
 
 
 template<unsigned int N, unsigned int d>
-MDS<N,d>:: MDS(const MDS & original){
-        m_EDM = original.getEDM();
+MDS<N,d>:: MDS(const MDS & t_original){
+        m_EDM = t_original.getEDM();
 
 }
 
 template<unsigned int N, unsigned int d>
-MSD<N,d> :: ~MDS(){};
+MDS<N,d> :: ~MDS(){};
 //private functions definitions
 
 template<unsigned int N, unsigned int d>
-void MDS<N,d>:: swap(Eigen::VectorXcd& eigenvalues,
-                    Eigen::MatrixXcd& eigenvectors,
+void MDS<N,d>:: swap(Eigen::VectorXcd& t_eigenvalues,
+                    Eigen::MatrixXcd& t_eigenvectors,
                     unsigned int i,unsigned int j)
                     {
-              Eigen::VectorXcd vector_temporary = eigenvectors.col(i);
-              std::complex<double> value_temporary = eigenvalues[i];
-              eigenvectors.col(i) = eigenvectors.col(j);
-              eigenvalues[i] = eigenvalues[j];
-              eigenvectors.col(j) = vector_temporary;
-              eigenvalues[j] = value_temporary;
+              Eigen::VectorXcd vector_temporary = t_eigenvectors.col(i);
+              std::complex<double> value_temporary = t_eigenvalues[i];
+              t_eigenvectors.col(i) = t_eigenvectors.col(j);
+              t_eigenvalues[i] = t_eigenvalues[j];
+              t_eigenvectors.col(j) = vector_temporary;
+              t_eigenvalues[j] = value_temporary;
             }
 
 
 template<unsigned int N, unsigned int d>
-void MDS<N,d> :: sort(Eigen::VectorXcd& eigenvalues,
-                      Eigen::MatrixXcd& eigenvectors){
+void MDS<N,d> :: sort(Eigen::VectorXcd& t_eigenvalues,
+                      Eigen::MatrixXcd& t_eigenvectors){
   unsigned int nSwap;
   do{
      nSwap = 0;
     for(unsigned int i=1; i<N; ++i){
-      if(std::abs(eigenvalues[i-1]) < std::abs(eigenvalues[i])){
-        swap(eigenvalues, eigenvectors,i-1,i);
+      if(std::abs(t_eigenvalues[i-1]) < std::abs(t_eigenvalues[i])){
+        swap(t_eigenvalues, t_eigenvectors,i-1,i);
         nSwap+=1;
       }
       else continue;
@@ -129,17 +129,17 @@ void MDS<N,d> :: sort(Eigen::VectorXcd& eigenvalues,
 
 
 template<unsigned int N, unsigned int d>
-void MDS<N,d> :: set_zero(Eigen::VectorXcd& sorted_eigenvalues){
-  for(unsigned int i=d; i<N; ++i) sorted_eigenvalues[i]=0;
+void MDS<N,d> :: set_zero(Eigen::VectorXcd& t_eigenvalues){
+  for(unsigned int i=d; i<N; ++i) t_eigenvalues[i]=0;
 }
 
 
 
 template<unsigned int N, unsigned int d>
-void MDS<N,d> :: eigen_radq(Eigen::VectorXcd& eigenvalues){
+void MDS<N,d> :: eigen_sqrt(Eigen::VectorXcd& t_eigenvalues){
 
             for(unsigned int i=0; i<N; ++i)
-                          eigenvalues[i] = std::sqrt(eigenvalues[i]);
+                          t_eigenvalues[i] = std::sqrt(t_eigenvalues[i]);
 
 }
 //public metrods definitiocns
@@ -148,16 +148,12 @@ void MDS<N,d> :: eigen_radq(Eigen::VectorXcd& eigenvalues){
 template<unsigned int N ,unsigned int d>
 Eigen::MatrixXcd MDS<N,d> :: classicalMDS(){
 
-  double n = 1/N;
   //initzialize identity
   Eigen::MatrixXd I= Eigen::MatrixXd::Identity(N,N);
-
   //define a matrix with all 1
   Eigen::MatrixXd U = Eigen::MatrixXd::Ones(N,N);
-  //define the centring Matrix
-  Eigen::MatrixXd J = I-(double)1/N*U;
   //find the gram MatrixXd
-  Eigen::MatrixXd G = -0.5*J*getEDM()*J;
+  Eigen::MatrixXd G = -0.5*(I-(double)1/N*U)*getEDM()*(I-(double)1/N*U);
   //diagonalize the gram Matrix
   Eigen::EigenSolver<Eigen::MatrixXd> es(G);
   Eigen::VectorXcd eigenval = es.eigenvalues();
@@ -167,7 +163,7 @@ Eigen::MatrixXcd MDS<N,d> :: classicalMDS(){
   //set to zero all the N-d lowest Eigenvalues
   set_zero(eigenval);
   //take the square root of the remaining Eigenvalues
-  eigen_radq(eigenval);
+  eigen_sqrt(eigenval);
 
   Eigen::MatrixXcd A = eigenvec*eigenval.asDiagonal();
   Eigen::MatrixXcd X (N,d);
