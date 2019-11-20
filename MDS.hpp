@@ -44,7 +44,7 @@ private:
     MDS(Eigen::MatrixXd t_EDM); /*Parametric
     *costructor*/
     MDS(const MDS & original);  /*Copy constructor*/
-  //  ~MDS();
+   ~MDS();
 
     //getter
     Eigen::MatrixXd getEDM () const;
@@ -56,6 +56,10 @@ private:
     *(usually 2 or 3) and n is the number of points to determine.
     */
     Eigen:: MatrixXcd classicalMDS();
+
+  //  Eigen::MatrixXd AlternatingDescent(const Eigen::MatrixXd &W); //TODO
+
+    //Semdefinite relaxation
 
 };
 
@@ -83,13 +87,15 @@ MDS<N,d>:: MDS(const MDS & original){
 
 }
 
-
+template<unsigned int N, unsigned int d>
+MSD<N,d> :: ~MDS(){};
 //private functions definitions
 
 template<unsigned int N, unsigned int d>
 void MDS<N,d>:: swap(Eigen::VectorXcd& eigenvalues,
                     Eigen::MatrixXcd& eigenvectors,
-                    unsigned int i,unsigned int j){
+                    unsigned int i,unsigned int j)
+                    {
               Eigen::VectorXcd vector_temporary = eigenvectors.col(i);
               std::complex<double> value_temporary = eigenvalues[i];
               eigenvectors.col(i) = eigenvectors.col(j);
@@ -142,6 +148,7 @@ void MDS<N,d> :: eigen_radq(Eigen::VectorXcd& eigenvalues){
 template<unsigned int N ,unsigned int d>
 Eigen::MatrixXcd MDS<N,d> :: classicalMDS(){
 
+  double n = 1/N;
   //initzialize identity
   Eigen::MatrixXd I= Eigen::MatrixXd::Identity(N,N);
 
@@ -153,7 +160,6 @@ Eigen::MatrixXcd MDS<N,d> :: classicalMDS(){
   Eigen::MatrixXd G = -0.5*J*getEDM()*J;
   //diagonalize the gram Matrix
   Eigen::EigenSolver<Eigen::MatrixXd> es(G);
-  //sort eigenvalues and corresponding eigenvectors
   Eigen::VectorXcd eigenval = es.eigenvalues();
   Eigen::MatrixXcd eigenvec = es.eigenvectors();
   //sort the eigenvalues and the corresponding eigenvectors
