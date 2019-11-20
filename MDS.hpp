@@ -19,7 +19,7 @@ private:
   Eigen::MatrixXd m_EDM;
   /**
   < NxN matrix of eculeidean distances. The entires type is T */
-  void swap(Eigen::VectorXcd& eigenvalueis,
+  void swap(Eigen::VectorXcd& eigenvalues,
             Eigen::MatrixXcd& eigenvactors,
             unsigned int i, unsigned int j);
           /**This func swap  the i-th and j-th eigenvalues.
@@ -55,7 +55,7 @@ private:
     *Will return an dxn matrix where d-> is the euclidean space dimension
     *(usually 2 or 3) and n is the number of points to determine.
     */
-    Eigen:: MatrixXd classicalMDS();
+    Eigen:: MatrixXcd classicalMDS();
 
 };
 
@@ -140,7 +140,7 @@ void MDS<N,d> :: eigen_radq(Eigen::VectorXcd& eigenvalues){
 
 
 template<unsigned int N ,unsigned int d>
-Eigen::MatrixXd MDS<N,d> :: classicalMDS(){
+Eigen::MatrixXcd MDS<N,d> :: classicalMDS(){
 
   //initzialize identity
   Eigen::MatrixXd I= Eigen::MatrixXd::Identity(N,N);
@@ -155,16 +155,21 @@ Eigen::MatrixXd MDS<N,d> :: classicalMDS(){
   Eigen::EigenSolver<Eigen::MatrixXd> es(G);
   //sort eigenvalues and corresponding eigenvectors
   Eigen::VectorXcd eigenval = es.eigenvalues();
-  Eigen::MatrixXd eigenvec = es.eigenvectors().cast<double>();
-  //sort(eigenval, eigenvec);
+  Eigen::MatrixXcd eigenvec = es.eigenvectors();
+  //sort the eigenvalues and the corresponding eigenvectors
+  sort(eigenval, eigenvec);
   //set to zero all the N-d lowest Eigenvalues
   set_zero(eigenval);
   //take the square root of the remaining Eigenvalues
   eigen_radq(eigenval);
-  //eigenvalues to diagonal Matrix
-  Eigen::MatrixXcd D = eigenval.asDiagonal();
+
+  Eigen::MatrixXcd A = eigenvec*eigenval.asDiagonal();
+  Eigen::MatrixXcd X (N,d);
+  for(unsigned int i=0; i<d; ++i)
+                  X.col(i) = A.col(i);
+
   //return the resulting matrix
-  return (double)eigenvec;
+  return X;
 
 
 
