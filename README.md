@@ -1,4 +1,4 @@
-#Euclidean Distance Matrix
+# Euclidean Distance Matrix
 
 This set of .hpp files provides some practical tool to work with EDM.
 In particular MDS.hpp provides methods to reconstruct the relative position of points
@@ -10,13 +10,13 @@ the matrix starting from EDM rank informations.
 
 
 
-##Requirements
+## Requirements
 
 This libraries use the Eigen3.3.7 class and method. 
 
-##Usage
+## Usage
 
-'''C++
+```C++
 #include <iostream>
 #include<Eigen/Eigenvalues>
 
@@ -41,5 +41,4 @@ int main (){
 
   return 0;
 }
-
-'''
+```
