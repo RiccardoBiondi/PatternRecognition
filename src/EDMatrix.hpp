@@ -2,6 +2,7 @@
 #define EDMATRIX_HPP
 
 #include <Eigen\Eigenvalues>
+#include <cmath>
 /**
  *  EDMatrix v2.0.0
  *  Starting Generation: 2019-12-21
@@ -60,16 +61,13 @@ class EDMatrix{
 
     void make_hollow();
     void make_positive();
-    void trim();
+    void trim();//TODO
 
-    Eigen::Matrix<T,N,N> gc_matrix();
+    Eigen::Matrix<T,N,N> gc_matrix() const;
+    Eigen::Matrix<T,N,N> hadamard();
     Eigen::Matrix<T,N,N> gramm();
 
     T frobenius_norm();
-
-
-
-
 
 };
 
@@ -79,13 +77,20 @@ class EDMatrix{
 
 //Declaratin of externam methods
 template<typename T,unsigned int N, unsigned int d>
-EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM);
+EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,N> t_EDM);
 
 template<typename T, unsigned int N, unsigned int d>
-Eigen::Matrix<T,N,N> ClassicalMDS(EDMatrix<T,N,d> t_EDM);
+Eigen::Matrix<T,N,d> ClassicalMDS(const EDMatrix<T,N,N>& t_EDM);
+
+template<typename T, unsigned int N, unsigned int d>
+Eigen::Matrix<T,N,d> AlternatingDescend(const EDMatrix<T,N,d> & t_EDM);
+
+template<typename T, unsigned int N, unsigned int d>
+EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM);
 
 
-
+template<typename T, unsigned int N, unsigned int d>
+EDMatrix<T,N,d> OptSpace (const EDMatrix<T,N,d>& t_EDM);
 
 
 
@@ -210,14 +215,163 @@ bool EDMatrix<T,N,d>:: is_EDM(){
   /**
   * Check if all the proprieties of EDM are verified
   */
-  return is_hollow()&&is_positive()&&is_symmetric()&&is_triang_inh(); 
+  return is_hollow()&&is_positive()&&is_symmetric()&&is_triang_inh();
+}
+
+
+
+//
+//void methods
+//
+
+
+template<typename T,unsigned int N, unsigned int d>
+void EDMatrix<T,N,d>:: make_hollow(){
+
+  /**
+  * Force the hollowness of the matrix by setting all the diagonal entires to zero.
+  *@note Modiphy m_EDM itself
+  */
+
+  for(unsigned int i=0; i<N; ++i){
+    m_EDM(i,i) = 0;
+  }
+}
+
+
+
+template<typename T, unsigned int N,unsigned int d>
+void EDMatrix<T,N,d>:: make_positive(){
+  /**
+  *Force the postivness of the matrix by setting to 0 all the negative entires.
+  *@note Modiphy m_EDM itself
+  */
+  for(unsigned int i=0; i<N; ++i){
+    for(unsigned int j=i; j<N;++j){
+      m_EDM(i,j)= m_EDM(i,j)<0 ? 0: m_EDM(i,j);
+      m_EDM(j,i)= m_EDM(j,i)<0 ? 0: m_EDM(j,i);
+
+    }
+  }
 }
 
 
 
 
 
+//
+//Eigne::Matrix methods
+//
 
+template<typename T,unsigned int N, unsigned int d>
+Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gc_matrix() const{
+
+  /**
+  *@returns the geometric centring matrix given by:
+  *@f$ J = I - \frac{1}{N}11^{T}@f$
+  */
+  return (Eigen::Matrix<T,N,N>::Identity()-(1./
+        (double)N)*Eigen::Matrix<T,N,N>::Ones());
+
+}
+
+
+
+
+template<typename T, unsigned int N, unsigned int d>
+Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: hadamard(){
+
+  /**
+  *Perform the Hadamard product between EDM and mask
+  *@return EDM with missing entires
+  */
+
+  Eigen::Matrix<T,N,N> Result;
+  for(unsigned int i=0; i<N; ++i){
+    for(unsigned int j=i; j<N;++j){
+      Result(i,j) = m_EDM(i,j)*m_Mask(i,j);
+      Result(j,i) = m_EDM(j,i)*m_Mask(j,i);
+    }
+  }
+  return Result;
+}
+
+
+
+
+template<typename T, unsigned int N, unsigned int d>
+Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gramm(){
+
+  /**
+  * @returns the Gramm matrix G, given by:
+  *@f$G  = XX^{T} = -0.5JDJ@f$
+  *Where:
+  * X is the point set (dxN matrix)
+  * J is the geometric centring matrix @see gc_matrix
+  * D is the Eucliden Distance Matrix (m_EDM).
+  */
+
+  return -0.5*gc_matrix()*hadamard()+gc_matrix();
+
+
+
+}
+
+
+
+
+//
+//T method
+//
+
+
+
+template<typename T, unsigned int N, unsigned int d>
+T EDMatrix<T,N,d>:: frobenius_norm(){
+
+  /**
+  * Perform the frombenius norm of the EDM with missing entires
+  */
+  Eigen::Matrix<T,N,N> D = hadamard();
+  T norm = 0;
+  for(unsigned int i=0; i<N; ++i){
+    for(unsigned int j=0; j<N; ++j){
+      norm += D(i,j);
+    }
+  }
+  return std::sqrt(norm);
+}
+
+
+
+//
+//
+//
+//
+//NOW START THE IMPLEMENTATION OF THE EXTERNAL FUNCIONS
+//
+//
+//
+//
+
+
+//
+//
+// INTERNAL FUNCTIONS
+//
+//
+
+//
+//
+//FUNCTIONS TO PERFORM THE MULTI DIMENSIONAL SCALING
+//
+//
+
+//
+//
+//FUNCTIONS TO PERFORM THE MATRIX COMPLETION
+//
+//
 
 
 
