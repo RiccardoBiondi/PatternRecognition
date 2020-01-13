@@ -3,11 +3,13 @@
 
 #include <Eigen\Eigenvalues>
 #include <cmath>
+
+#include "miscellanea.hpp"
 /**
  *  EDMatrix v2.0.0
  *  Starting Generation: 2019-12-21
  *  ----------------------------------------------------------
- *  This file contains the implementations of the template class EDMatrix and some external methods usefull to work with Euclidena Distance Matrix
+ *  This file contains the implementations of the template class EDMatrix and some external methods usefull to work with Euclidean Distance Matrix
  *
  * Requirments:
  *   Eigen 3.3.7
@@ -20,7 +22,7 @@ template<typename T, unsigned int N, unsigned int d>
 class EDMatrix{
 
 /**
-* EDMatrix class, provides methods to build and works with Euclidean Distance Matrix(EDM)
+* \class EDMatrix, provides methods to build and works with Euclidean Distance Matrix(EDM)
 * EDMatrix need Eigen 3.3.7 to work.
 * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 * @tparam T type of entries of the EDM, can be double, float or int
@@ -42,7 +44,7 @@ class EDMatrix{
     EDMatrix(const EDMatrix<T,N,d>& o_EDMatrix):m_EDM(o_EDMatrix.getEDM()),
                                                 m_Mask(o_EDMatrix.getMask()){};
     //operator
-    //EDMatrix<T,N,d> operator& = (const EDMatrix<T,N,d>& t_EDMatrix);
+    EDMatrix<T,N,d> operator  = (const EDMatrix<T,N,d>& t_EDMatrix);
 
 
     //getter and setter
@@ -77,10 +79,10 @@ class EDMatrix{
 
 //Declaratin of externam methods
 template<typename T,unsigned int N, unsigned int d>
-EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,N> t_EDM);
+EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r);
 
 template<typename T, unsigned int N, unsigned int d>
-Eigen::Matrix<T,N,d> ClassicalMDS(const EDMatrix<T,N,N>& t_EDM);
+Eigen::Matrix<T,N,d> ClassicalMDS(EDMatrix<T,N,d> t_EDM);
 
 template<typename T, unsigned int N, unsigned int d>
 Eigen::Matrix<T,N,d> AlternatingDescend(const EDMatrix<T,N,d> & t_EDM);
@@ -95,6 +97,18 @@ EDMatrix<T,N,d> OptSpace (const EDMatrix<T,N,d>& t_EDM);
 
 
 //Starting definitions
+
+
+//Copy assignement operator
+
+template<typename T, unsigned int N, unsigned int d>
+EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator  =
+                                    (const EDMatrix<T,N,d>& t_EDMatrix){
+
+      setEDM(t_EDMatrix.getEDM());
+      setMask(t_EDMatrix.getMask());
+      return *this;
+                                    }
 
 //
 //Getter definition
@@ -311,7 +325,7 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gramm(){
   * D is the Eucliden Distance Matrix (m_EDM).
   */
 
-  return -0.5*gc_matrix()*hadamard()+gc_matrix();
+  return -0.5*gc_matrix()*hadamard()*gc_matrix();
 
 
 
@@ -360,20 +374,5 @@ T EDMatrix<T,N,d>:: frobenius_norm(){
 // INTERNAL FUNCTIONS
 //
 //
-
-//
-//
-//FUNCTIONS TO PERFORM THE MULTI DIMENSIONAL SCALING
-//
-//
-
-//
-//
-//FUNCTIONS TO PERFORM THE MATRIX COMPLETION
-//
-//
-
-
-
 
 #endif
