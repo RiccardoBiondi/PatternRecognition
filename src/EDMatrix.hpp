@@ -33,6 +33,7 @@ class EDMatrix{
   private:
     Eigen::Matrix<T,N,N> m_EDM;
     Eigen::Matrix<int,N,N> m_Mask;
+    Eigen::Matrix<T,N,N> m_Noise;
 
   public:
     //Constructors
@@ -50,9 +51,11 @@ class EDMatrix{
     //getter and setter
     Eigen::Matrix<T,N,N> getEDM() const;
     Eigen::Matrix<int,N,N> getMask() const;
+    Eigen::Matrix<T,N,N> getNoise() const;
 
     void setEDM(const Eigen::Matrix<T,N,N>& t_EDM);
     void setMask(const Eigen::Matrix<int,N,N>& t_Mask);
+    void setNoise(const Eigen::Matrix<T,N,N>& t_Noise);
 
     //methods
     bool is_hollow();
@@ -350,7 +353,7 @@ T EDMatrix<T,N,d>:: frobenius_norm(){
   T norm = 0;
   for(unsigned int i=0; i<N; ++i){
     for(unsigned int j=0; j<N; ++j){
-      norm += D(i,j);
+      norm += std::pow(D(i,j),2);
     }
   }
   return std::sqrt(norm);
@@ -372,7 +375,6 @@ T EDMatrix<T,N,d>:: frobenius_norm(){
 //
 //
 // INTERNAL FUNCTIONS
-//
 //
 
 #endif
