@@ -16,7 +16,6 @@
 
 
 
-
 SCENARIO("getter, setter, costructors, operators","[one]"){
   GIVEN("two different EDM A, B and a mask W"){
     Eigen:: MatrixXd A(4,4);
@@ -147,6 +146,7 @@ SCENARIO("make_hollow and make_positive tests","[three]"){
         D.make_positive();
 
         THEN("D becomes hollow and positive"){
+
           REQUIRE(D.is_hollow());
           REQUIRE(D.is_positive());
         }
@@ -156,62 +156,103 @@ SCENARIO("make_hollow and make_positive tests","[three]"){
 
 
 
+SCENARIO("gc_matrix, gramm, hadamard and frobenius norm ", "[four]"){
 
-
-
-TEST_CASE("gc_matrix, gramm, hadamard and frobenius norm ", "[four]"){
-
-//provide a starting matrix and the solution
-  Eigen:: Matrix<double,4,4> A;
-  Eigen:: Matrix<int,4,4> W;
-  Eigen:: Matrix<double,4,4> S;
-  A << 0.   , 8649., 6724.,17689.,
-      8649. , 0.  , 2704., 3600.,
-      6724. , 2704.,0.    ,12321.,
-      17689., 3600.,12321., 0.;
-
-  W << 0,1,1,0,
-      1,1,1,1,
-      1,1,0,0,
-      0,1,0,0;
-
-  S << 0   , 8649., 6724., 0    ,
-      8649., 0.   , 2704., 3600.,
-      6724., 2704., 0.   , 0.   ,
-      0.   , 3600., 0.   , 0.   ;
-
+  GIVEN("An EDM"){
+    Eigen:: Matrix<double,4,4> A;
+    A << 0.   , 8649., 6724.,17689.,
+        8649. , 0.  , 2704., 3600.,
+        6724. , 2704.,0.    ,12321.,
+        17689., 3600.,12321., 0.;
     EDMatrix<double,4,2> D(A);
 
-    //solutions
+    WHEN("Given the correct results"){
+      Eigen::Matrix<double,4,4> J;
+      Eigen::Matrix<double,4,4> G;
+      J<<   .75,-0.25,-0.25,-0.25,
+          -0.25,.75  ,-0.25,-0.25,
+          -0.25,-0.25,.75 ,-0.25,
+          -0.25,-0.25,-0.25,.75;
 
-    Eigen::Matrix<double,4,4> J;
-    Eigen::Matrix<double,4,4> G;
-    double norm = 0;
-
-    J<<   .75,-0.25,-0.25,-0.25,
-        -0.25,.75  ,-0.25,-0.25,
-        -0.25,-0.25,.75 ,-0.25,
-        -0.25,-0.25,-0.25,.75;
-
-    G = -0.5*J*A*J;
+      G = -0.5*J*A*J;
 
 
-    //so now check te methods
+      THEN("The results coincide with the correct one"){
 
-    REQUIRE(D.gc_matrix() == J);
-    REQUIRE(D.gramm() == G);
+        REQUIRE(D.gc_matrix() == J);
+        REQUIRE(D.gramm() == G);
+      }
 
-    //now set the mask
+    WHEN("Set the mask, and give a control matrix an norm"){
+      Eigen:: Matrix<int,4,4> W;
+      Eigen:: Matrix<double,4,4> S;
+      W << 0,1,1,0,
+          1,1,1,1,
+          1,1,0,0,
+          0,1,0,0;
+      S << 0   , 8649., 6724., 0    ,
+          8649., 0.   , 2704., 3600.,
+          6724., 2704., 0.   , 0.   ,
+          0.   , 3600., 0.   , 0.   ;
 
-    D.setMask(W);
-    REQUIRE(D.hadamard() == S);
+      D.setMask(W);
 
-    //compute the check value for the frobenius frobenius_norm
-    Eigen::Matrix<double,4,4> R;
-    R = S*S.transpose();
-    norm = std::sqrt(R.trace());
-    REQUIRE(D.frobenius_norm() == norm);
-
-
-
+      Eigen::Matrix<double,4,4> R;
+      R = S*S.transpose();
+      double norm = std::sqrt(R.trace());
+          THEN("The method return the correct result"){
+            REQUIRE(D.hadamard() == S);
+            REQUIRE(D.frobenius_norm() == norm);
+          }
+    }}
+  }
 }
+
+
+
+
+
+
+/*
+TEST_CASE("classicalMDS test","[five]"){
+  Eigen:: Matrix<double,4,4> A;
+    A << 0. , 8649., 6724.,17689.,
+      8649. , 0.   , 2704., 3600.,
+      6724. , 2704.,0.    ,12321.,
+      17689., 3600.,12321., 0.;
+  EDMatrix<double,4,2> D(A);
+
+  Eigen::Matrix<double,4,2> Sol;
+
+  Sol<< -62.8311, 32.9745,
+         18.4029, -12.027,
+        -24.9602, 18.7634,
+         69.3884, 18.7634;
+
+  Eigen::Matrix<double,4,2> Res = ClassicalMDS(D);
+  REQUIRE(Res == Sol);
+}
+/*
+SCENARIO("classicalMDS test","[five]"){
+  GIVEN("An input EDM and the resulting point set"){
+    Eigen:: MatrixXd A(4,4);
+      A << 0. , 8649., 6724.,17689.,
+        8649. , 0.   , 2704., 3600.,
+        6724. , 2704.,0.    ,12321.,
+        17689., 3600.,12321., 0.;
+    EDMatrix<double,4,2> D(A);
+
+    Eigen::Matrix<double,4,2> Sol;
+
+    Sol<< -62.8311, 32.9745,
+           18.4029, -12.027,
+          -24.9602, 18.7634;
+    WHEN("Perform the classicalMDS"){
+      THEN("We obtain the reconstructed point set"){
+
+        REQUIRE(ClassicalMDS(D) == Sol);
+
+      }
+    }
+  }
+}*/
