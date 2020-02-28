@@ -69,8 +69,8 @@ class EDMatrix{
     void trim();//TODO
 
     Eigen::Matrix<T,N,N> gc_matrix() const;
-    Eigen::Matrix<T,N,N> hadamard();
-    Eigen::Matrix<T,N,N> gramm();
+    Eigen::Matrix<T,N,N> hadamard() const;
+    Eigen::Matrix<T,N,N> gramm() const;
 
     T frobenius_norm();
 
@@ -85,7 +85,7 @@ template<typename T,unsigned int N, unsigned int d>
 EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r);
 
 template<typename T, unsigned int N, unsigned int d>
-Eigen::Matrix<T,N,d> ClassicalMDS(EDMatrix<T,N,d> t_EDM);
+Eigen::Matrix<T,N,d> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM);
 
 template<typename T, unsigned int N, unsigned int d>
 Eigen::Matrix<T,N,d> AlternatingDescend(const EDMatrix<T,N,d> & t_EDM);
@@ -296,7 +296,7 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gc_matrix() const{
 
 
 template<typename T, unsigned int N, unsigned int d>
-Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: hadamard(){
+Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: hadamard() const {
 
   /**
   *Perform the Hadamard product between EDM and mask
@@ -317,7 +317,7 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: hadamard(){
 
 
 template<typename T, unsigned int N, unsigned int d>
-Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gramm(){
+Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gramm() const{
 
   /**
   * @returns the Gramm matrix G, given by:
@@ -376,5 +376,51 @@ T EDMatrix<T,N,d>:: frobenius_norm(){
 //
 // INTERNAL FUNCTIONS
 //
+
+//
+//
+//
+//FUNCTIONS TO PERFORM THE MULTI DIMENSIONAL SCALING
+//
+//
+
+template<typename T, unsigned int N, unsigned int d>
+Eigen::Matrix<T,N,d> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
+
+  /**
+  * Perform the classical multi dimensional scaling
+  *
+  *@params t_EDM Euclidean distace matrix from which reconstruct the point set
+  *
+  é@returns Nxd matrix which is the reconstructed point set up to a translation and rotation.
+  */
+
+
+  Eigen::EigenSolver<Eigen::Matrix<T,N,N>> es(t_EDM.gramm());
+
+  Eigen::Matrix<T,N,1> eigenval =
+                      cast_real<T,N,1>(es.eigenvalues());
+  Eigen::Matrix<T,N,N> eigenvec =
+                      cast_real<T,N,N>(es.eigenvectors());
+
+  sort<T,N>(eigenval, eigenvec);
+  set_zero<T,N>(eigenval, d);
+  eigen_sqrt<T,N>(eigenval);
+  Eigen::Matrix<T,N,N>A =
+                    eigenval.asDiagonal()*eigenvec.transpose();
+  Eigen::Matrix<T,N,d> X;
+  for(unsigned int i=0; i<d; ++i){
+                  X.col(i) = A.transpose().col(i);}
+
+  return X;
+
+}
+//
+//
+//FUNCTIONS TO PERFORM THE MATRIX COMPLETION
+//
+//
+
+
 
 #endif
