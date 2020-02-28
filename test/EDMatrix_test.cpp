@@ -1,3 +1,7 @@
+
+
+
+
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
@@ -81,6 +85,7 @@ SCENARIO("getter, setter, costructors, operators","[one]"){
 
 
 SCENARIO("test the boolen methods", "[two]"){
+
 
   GIVEN("An EDM and a not EDM matrix"){
 
@@ -211,29 +216,8 @@ SCENARIO("gc_matrix, gramm, hadamard and frobenius norm ", "[four]"){
 
 
 
-
-
-/*
-TEST_CASE("classicalMDS test","[five]"){
-  Eigen:: Matrix<double,4,4> A;
-    A << 0. , 8649., 6724.,17689.,
-      8649. , 0.   , 2704., 3600.,
-      6724. , 2704.,0.    ,12321.,
-      17689., 3600.,12321., 0.;
-  EDMatrix<double,4,2> D(A);
-
-  Eigen::Matrix<double,4,2> Sol;
-
-  Sol<< -62.8311, 32.9745,
-         18.4029, -12.027,
-        -24.9602, 18.7634,
-         69.3884, 18.7634;
-
-  Eigen::Matrix<double,4,2> Res = ClassicalMDS(D);
-  REQUIRE(Res == Sol);
-}
-/*
 SCENARIO("classicalMDS test","[five]"){
+
   GIVEN("An input EDM and the resulting point set"){
     Eigen:: MatrixXd A(4,4);
       A << 0. , 8649., 6724.,17689.,
@@ -244,15 +228,26 @@ SCENARIO("classicalMDS test","[five]"){
 
     Eigen::Matrix<double,4,2> Sol;
 
-    Sol<< -62.8311, 32.9745,
-           18.4029, -12.027,
-          -24.9602, 18.7634;
+    Sol<< -62.8311,  32.9745,
+           18.4029, -12.027 ,
+          -24.9602, -39.7109,
+           69.3884,  18.7634;
+
+
+
     WHEN("Perform the classicalMDS"){
-      THEN("We obtain the reconstructed point set"){
+      Eigen::Matrix<double, 4,2> Res;
+      Res = ClassicalMDS<double,4,2>(D);
 
-        REQUIRE(ClassicalMDS(D) == Sol);
-
+      THEN("We obtain the reconstructed point set, compared trhough frobenius norm"){
+      Eigen::Matrix<double,4,2> Diff;
+      Diff = Res + (-Sol);
+      Eigen::Matrix<double,4,4> NS;
+      NS = Diff*Diff.transpose();
+      double norm = std::sqrt(NS.trace());
+        //define the comparing functions
+        REQUIRE(norm <1e-04);
       }
     }
   }
-}*/
+}
