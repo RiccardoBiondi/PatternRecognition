@@ -3,6 +3,7 @@
 
 #include <Eigen\Eigenvalues>
 #include <cmath>
+#include <iostream>
 
 #include "miscellanea.hpp"
 /**
@@ -377,6 +378,38 @@ T EDMatrix<T,N,d>:: frobenius_norm(){
 // INTERNAL FUNCTIONS
 //
 
+
+template<typename T,unsigned int N, unsigned int d>
+EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r){
+
+  /**
+  *This function is usefull inside the Rank Complete Edm. Perform
+  *and Eigenvalues decomposition and keeps only the r greater
+  *eigenvalues and the corresponding eigenvalues.
+  *@params t_EDM -> Euclidian Distance matrix in which we perform
+  *the treshold
+  *@params r -> Number of Eigenvalues to not kepp on zero
+  *
+  @returs An eucliden distance matrix.
+  **/
+
+  Eigen::EigenSolver<Eigen::Matrix<T,N,N>> es(t_EDM.hadamard());
+  Eigen::Matrix<T,N,1> eigenval =
+                          cast_real<T,N,1>(es.eigenvalues());
+  Eigen::Matrix<T,N,N> eigenvec =
+                          cast_real<T,N,N>(es.eigenvectors());
+
+  sort<T,N>(eigenval, eigenvec);
+  set_zero<T,N>(eigenval, r);
+  Eigen::Matrix<T,N,N> D =
+          eigenvec*eigenval.asDiagonal()*eigenvec.transpose();
+
+  EDMatrix<T,N,d> R(D);
+  return R;
+
+
+}
+
 //
 //
 //
@@ -420,6 +453,7 @@ Eigen::Matrix<T,N,d> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
 //FUNCTIONS TO PERFORM THE MATRIX COMPLETION
 //
 //
+
 
 
 
