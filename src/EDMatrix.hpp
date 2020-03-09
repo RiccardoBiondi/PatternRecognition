@@ -6,6 +6,10 @@
 #include <iostream>
 
 #include "miscellanea.hpp"
+
+//Typedef to improve code readability
+typedef unsigned int uInt;
+
 /**
  *  EDMatrix v2.0.0
  *  Starting Generation: 2019-12-21
@@ -14,12 +18,12 @@
  *
  * Requirments:
  *   Eigen 3.3.7
- *I've performed test by using Check v2.11.0
+ *I've performed test by using Catch v2.11.0
  *
  */
 
 
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 class EDMatrix{
 
 /**
@@ -44,12 +48,18 @@ class EDMatrix{
               m_EDM(t_EDM),m_Mask(t_Mask){};
 
     EDMatrix(const EDMatrix<T,N,d>& o_EDMatrix):m_EDM(o_EDMatrix.getEDM()),
-                                                m_Mask(o_EDMatrix.getMask()){};
+                m_Mask(o_EDMatrix.getMask()){};
     //operator
-    EDMatrix<T,N,d> operator  = (const EDMatrix<T,N,d>& t_EDMatrix);
+    EDMatrix<T,N,d> operator = (const EDMatrix<T,N,d>& t_EDMatrix);
+
+    //Aritmetic operators
+    EDMatrix<T,N,d> operator + (const EDMatrix<T,N,d>& t_EDM);
+    EDMatrix<T,N,d> operator - (const EDMatrix<T,N,d>& t_EDM);
+    //Access operator
+    T& operator () (uInt Row , uInt Col);
 
     //sqrt
-    Eigen::Matrix<T,N,N> sqrt() const;
+    EDMatrix<T,N,d> sqrt() const;
     //getter and setter
     Eigen::Matrix<T,N,N> getEDM() const;
     Eigen::Matrix<int,N,N> getMask() const;
@@ -83,7 +93,7 @@ class EDMatrix{
 
 
 //Declaratin of externam methods
-template<typename T,unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r);
 
 template<typename T, unsigned int N, unsigned int d>
@@ -115,13 +125,59 @@ EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator  =
       return *this;
                                     }
 
+
+//Aritmetic operators
+template<typename T, uInt N, uInt d>
+EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator + (const EDMatrix<T,N,d>&
+                                                    t_EDM){
+  /**
+  *Perform the sum of two euclidean distance matrix
+  *@perams this-> First Adder
+  *@params t_EDM -> Second Adder
+  *@return the sum of two euclidean distance matrix
+  *
+  **/
+  EDMatrix<T,N,d> Sum (getEDM()+t_EDM.getEDM());
+  return Sum;
+}
+
+template<typename T, uInt N, uInt d>
+EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator - (const EDMatrix<T,N,d>&
+                                                    t_EDM){
+  /**
+  *Perform the sum of two euclidean distance matrix
+  *@perams this-> First Adder
+  *@params t_EDM -> Second Adder
+  *@return the sum of two euclidean distance matrix
+  *
+  **/
+  EDMatrix<T,N,d> Diff (getEDM()-t_EDM.getEDM());
+  return Diff;
+}
+
+
+
+//Access operator
+template<typename T, uInt N, uInt d>
+T& EDMatrix<T,N,d>:: operator () (uInt Row , uInt Col)
+{
+  /**
+  @return the element of the euclidean distance matrix in row Row and
+  *column Col
+  **/
+  return m_EDM(Row,Col);
+
+}
+
+
+
 //
 //sqrt operator
 //
 template<typename T, unsigned int N, unsigned int d>
-Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: sqrt() const {
+EDMatrix<T,N,d> EDMatrix<T,N,d>:: sqrt() const {
 
-  Eigen::Matrix<T,N,N> R;
+  EDMatrix<T,N,d> R(getEDM(), getMask());
   for(unsigned int i=0; i< N ;i++){
     for(unsigned int j=i; j<N; j++){
       R(i,j) = std::sqrt(getEDM()(i,j));
@@ -475,17 +531,6 @@ Eigen::Matrix<T,N,d> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
 //FUNCTIONS TO PERFORM THE MATRIX COMPLETION
 //
 //
-
-template<typename T, unsigned int N, unsigned int d>
-EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM, T MAX_TOL,
-                                unsigned int MAX_ITER){
-
-  /**
-
-  **/
-
-}
-
 
 
 #endif
