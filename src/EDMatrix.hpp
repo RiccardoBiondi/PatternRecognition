@@ -48,7 +48,8 @@ class EDMatrix{
     //operator
     EDMatrix<T,N,d> operator  = (const EDMatrix<T,N,d>& t_EDMatrix);
 
-
+    //sqrt
+    Eigen::Matrix<T,N,N> sqrt() const;
     //getter and setter
     Eigen::Matrix<T,N,N> getEDM() const;
     Eigen::Matrix<int,N,N> getMask() const;
@@ -113,6 +114,27 @@ EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator  =
       setMask(t_EDMatrix.getMask());
       return *this;
                                     }
+
+//
+//sqrt operator
+//
+template<typename T, unsigned int N, unsigned int d>
+Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: sqrt() const {
+
+  Eigen::Matrix<T,N,N> R;
+  for(unsigned int i=0; i< N ;i++){
+    for(unsigned int j=i; j<N; j++){
+      R(i,j) = std::sqrt(getEDM()(i,j));
+      R(j,i) = std::sqrt(getEDM()(j,i));
+    }
+  }
+  return R;
+
+}
+
+
+
+
 
 //
 //Getter definition
@@ -219,7 +241,7 @@ bool EDMatrix<T,N,d>:: is_triang_inh(){
     for(unsigned int j=i; j< N ; ++j){
       for(unsigned int k=j; k< N ; ++k){
 
-        check += sqrt(m_EDM(i,j)) <= sqrt(m_EDM(i,k))+sqrt(m_EDM(k,j))? 0:1;
+        check += std::sqrt(m_EDM(i,j)) <= std::sqrt(m_EDM(i,k))+std::sqrt(m_EDM(k,j))? 0:1;
       }
     }
 
@@ -454,6 +476,15 @@ Eigen::Matrix<T,N,d> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
 //
 //
 
+template<typename T, unsigned int N, unsigned int d>
+EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM, T MAX_TOL,
+                                unsigned int MAX_ITER){
+
+  /**
+
+  **/
+
+}
 
 
 
