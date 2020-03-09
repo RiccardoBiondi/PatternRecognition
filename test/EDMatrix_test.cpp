@@ -216,9 +216,9 @@ SCENARIO("gc_matrix, gramm, hadamard and frobenius norm ", "[four]"){
 
 
 
-SCENARIO("classicalMDS test","[five]"){
+SCENARIO("classicalMDS","[five]"){
 
-  GIVEN("An input EDM and the resulting point set"){
+  GIVEN("An input EDM, resulting point set and a control matrix"){
     Eigen:: MatrixXd A(4,4);
       A << 0. , 8649., 6724.,17689.,
         8649. , 0.   , 2704., 3600.,
@@ -232,6 +232,7 @@ SCENARIO("classicalMDS test","[five]"){
            18.4029, -12.027 ,
           -24.9602, -39.7109,
            69.3884,  18.7634;
+
 
 
 
@@ -250,4 +251,45 @@ SCENARIO("classicalMDS test","[five]"){
       }
     }
   }
+}
+
+
+
+SCENARIO("EVTreshold test", "[six]"){
+
+  GIVEN("An input EDM and a Control matrix"){
+    Eigen:: MatrixXd A(4,4);
+      A << 0. , 8649., 6724.,17689.,
+        8649. , 0.   , 2704., 3600.,
+        6724. , 2704.,0.    ,12321.,
+        17689., 3600.,12321., 0.;
+    EDMatrix<double,4,2> D(A);
+
+    Eigen::Matrix<double,4,4> Sol;
+
+    Sol<< 1703.59119256248,7291.03635562772,4073.23453154243,18643.5361281355,
+7291.03635562771,1882.63548916683,4644.5785168113,2563.85641733326,
+4073.23453154242,4644.5785168113,4161.69797519517,10895.0591521313,
+18643.5361281355,2563.85641733326,10895.0591521313,629.527178256831;
+
+    WHEN("Perform the EVTreshold"){
+
+
+      EDMatrix<double,4,2> Res = EVTreshold(D,2);
+
+      THEN("the frobenius norm of the diffrence ins lover then 1e-10"){
+
+        Eigen::Matrix<double,4,4> Diff;
+        Diff = Res.getEDM() + (-Sol);
+        Eigen::Matrix<double,4,4> NS;
+        NS = Diff*Diff.transpose();
+        double norm = std::sqrt(NS.trace());
+          //define the comparing functions
+          REQUIRE(norm <1e-10);
+
+      }
+
+    }
+  }
+
 }
