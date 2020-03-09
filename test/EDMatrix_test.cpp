@@ -42,6 +42,13 @@ SCENARIO("getter, setter, costructors, operators","[one]"){
           1,1,0,0,
           0,1,0,0;
 
+    Eigen::Matrix<double,4,4> S;
+    S<< 0  , 93, 82 , 133,
+        93 , 0 , 52 , 60 ,
+        82 , 52, 0  , 111,
+        133, 60, 111, 0  ;
+
+
 
     WHEN("Create an EDMatrix with A"){
 
@@ -67,6 +74,12 @@ SCENARIO("getter, setter, costructors, operators","[one]"){
       THEN("The two EDM are equal"){
         REQUIRE(E.getEDM()==D.getEDM());
         REQUIRE(E.getMask() == D.getMask());
+      }
+    }
+    WHEN("Square root of the distances square is required"){
+      EDMatrix<double,4,2> D(A);
+      THEN("The operator computes it correctrly"){
+        REQUIRE(S ==D.sqrt());
       }
     }
   }
