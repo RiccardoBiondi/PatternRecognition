@@ -79,7 +79,34 @@ SCENARIO("getter, setter, costructors, operators","[one]"){
     WHEN("Square root of the distances square is required"){
       EDMatrix<double,4,2> D(A);
       THEN("The operator computes it correctrly"){
-        REQUIRE(S ==D.sqrt());
+        REQUIRE(S ==D.sqrt().getEDM());
+      }
+    }
+    WHEN("Perform addition and subtraction of the same EDM"){
+        EDMatrix<double,4,2> D(A);
+        EDMatrix<double,4,2> Sum = D+D;
+        EDMatrix<double,4,2> Dif = D-D;
+
+        //Cotrol Matrix
+        Eigen::Matrix<double,4,4> CD = Eigen::Matrix<double,4,4>::Zero();
+
+      THEN("Obtain the double of the matrix and a matrix made only by zero"){
+        REQUIRE(Sum.getEDM() == 2*A);
+        REQUIRE(Dif.getEDM() == CD);
+
+
+      }
+
+    }
+    WHEN("Access a particular member of EDM"){
+      EDMatrix<double,4,2> D(A);
+      THEN("Access operator return the correct value"){
+
+        for(int i=0; i<4; i++){
+          for(int j=0; j<4; j++){
+            REQUIRE(D(i,j) == A(i,j));
+          }
+        }
       }
     }
   }
