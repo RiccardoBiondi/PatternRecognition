@@ -32,7 +32,8 @@ class EDMatrix{
 * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 * @tparam T type of entries of the EDM, can be double, float or int
 * @tparam unsigned int N, number of points from which EDM is created. Is the dimension of the NxN EDM.
-* @tparam unsigned ind dimension of the euclidean space in which points live
+* @tparam unsigned ind dimension of the euclidean space in which points
+*live
 */
 
   private:
@@ -42,13 +43,23 @@ class EDMatrix{
 
   public:
     //Constructors
-    EDMatrix(){};
-    EDMatrix(Eigen::Matrix<T,N,N> t_EDM,
-            Eigen::Matrix<int,N,N> t_Mask = Eigen::Matrix<int,N,N>::Ones()):
-              m_EDM(t_EDM),m_Mask(t_Mask){};
+    EDMatrix();
 
-    EDMatrix(const EDMatrix<T,N,d>& o_EDMatrix):m_EDM(o_EDMatrix.getEDM()),
-                m_Mask(o_EDMatrix.getMask()){};
+    //Parametric Constructor
+
+    EDMatrix(Eigen::Matrix<T,N,N> t_EDM,
+            Eigen::Matrix<int,N,N> t_Mask =
+            Eigen::Matrix<int,N,N>::Ones(),
+            Eigen::Matrix<T,N,N> t_Noise = Eigen::Matrix<T,N,N>::Zero()):
+
+            m_EDM(t_EDM),m_Mask(t_Mask),m_Noise(t_Noise){
+              /**
+              *Parametric Constructor
+              *@params
+              **/
+            };
+
+    EDMatrix(const EDMatrix<T,N,d>& o_EDM);
     //operator
     EDMatrix<T,N,d> operator = (const EDMatrix<T,N,d>& t_EDMatrix);
 
@@ -113,7 +124,35 @@ EDMatrix<T,N,d> OptSpace (const EDMatrix<T,N,d>& t_EDM);
 
 //Starting definitions
 
+//Constructors
 
+
+//Default Constructor
+template<typename T, uInt N, uInt d>
+EDMatrix<T,N,d>:: EDMatrix() :
+                             m_EDM(Eigen::Matrix<T,N,N>::Zero()),
+                             m_Mask(Eigen::Matrix<int,N,N>:: Ones()),
+                             m_Noise(Eigen::Matrix<T,N,N>::Zero()){
+  /**
+  *Dafult constructor: Initzilize the EDM as a Zero matrix, the mask as
+  *1 matrix and the noise matrix as Zero matrix.
+  *
+  **/
+}
+
+
+
+//Copy Constructor
+template<typename T, uInt N, uInt d>
+EDMatrix<T,N,d>:: EDMatrix(const EDMatrix<T,N,d> & o_EDM):
+                  m_EDM(o_EDM.getEDM()),
+                  m_Mask(o_EDM.getMask()),
+                  m_Noise(o_EDM.getNoise()){
+
+            /**
+            *Copy constructor
+            **/
+                  }
 //Copy assignement operator
 
 template<typename T, unsigned int N, unsigned int d>
@@ -200,6 +239,7 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: getEDM() const{
   /**
   * getter. @returns m_EDM.
   *@see getMask
+  *@see getNoise
   */
   return m_EDM;
 }
@@ -210,10 +250,22 @@ Eigen::Matrix<int,N,N> EDMatrix<T,N,d>:: getMask() const{
   /**
   * getter. @returns m_Mask
   *@see getEDM
+  *@see getNoise
   */
   return m_Mask;
 }
 
+
+template<typename T, uInt N, uInt d>
+Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: getNoise() const{
+  /**
+  *Getter
+  *@returns m_Noise
+  *@see getEDM
+  *@see getMask
+  **/
+  return m_Noise;
+}
 
 //
 //Setter Definitions
@@ -238,6 +290,16 @@ void EDMatrix<T,N,d>:: setMask(const Eigen::Matrix<int,N,N>& t_Mask){
 }
 
 
+
+template<typename T, uInt N, uInt d>
+void EDMatrix<T,N,d>:: setNoise(const Eigen::Matrix<T,N,N>& t_Noise){
+
+  /**
+  * set the value of m_Noise to t_Noise
+  * @param const Eigen:: Matrix<T,N,N>& t_Noise
+  */
+  m_Noise = t_Noise;
+}
 //
 //boolean methods
 //
