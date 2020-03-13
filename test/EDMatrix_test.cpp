@@ -22,25 +22,31 @@
 
 SCENARIO("getter, setter, costructors, operators","[one]"){
   GIVEN("two different EDM A, B and a mask W"){
-    Eigen:: MatrixXd A(4,4);
+    Eigen:: Matrix<double,4,4> A;
       A << 0. , 8649., 6724.,17689.,
         8649. , 0.   , 2704., 3600.,
         6724. , 2704.,0.    ,12321.,
         17689., 3600.,12321., 0.;
 
-    Eigen:: MatrixXd B(4,4);
+    Eigen:: Matrix<double,4,4> B;
       B << 0. , 16., 17.,18.,
           16. , 0. , 19., 20.,
           17. , 19., 0. , 21.,
           18. , 20., 21., 0.;
 
 
-    Eigen:: MatrixXi W(4,4);
+    Eigen:: Matrix<int,4,4> W;
 
       W<< 0,1,1,0,
           1,1,1,1,
           1,1,0,0,
           0,1,0,0;
+
+    Eigen::Matrix<double, 4,4> N;
+    N<<  0.3, 0.4, 0.5, 0.6,
+          0.1, 0.2, 0.3, 0.4,
+          0.5, 0.6, 0.3, 0.4,
+          0.1, 0.2, 0.5, 0.7;
 
     Eigen::Matrix<double,4,4> S;
     S<< 0  , 93, 82 , 133,
@@ -55,16 +61,19 @@ SCENARIO("getter, setter, costructors, operators","[one]"){
             EDMatrix<double,4,4> D (A);
       THEN("Check the getter"){
         REQUIRE(D.getEDM()==A);
-        REQUIRE(D.getMask()==Eigen::MatrixXi::Ones(4,4));
+        REQUIRE(D.getMask()==Eigen::Matrix<int,4,4>::Ones());
+        REQUIRE(D.getNoise() == Eigen::Matrix<double,4,4>:: Zero() );
       }
     }
-    WHEN("Create EDMatrix by default constructor and set the mask and the EDM"){
+    WHEN("Create EDMatrix by default constructor and set noise, mask and EDM"){
       EDMatrix<double,4,4> D;
       D.setEDM(B);
       D.setMask(W);
+      D.setNoise(N);
       THEN("check if setter works"){
         REQUIRE(D.getEDM()==B);
         REQUIRE(D.getMask()==W);
+        REQUIRE(D.getNoise() == N);
       }
     }
     WHEN("Create an EDMatrix by using the copy assignement operator"){
@@ -74,6 +83,7 @@ SCENARIO("getter, setter, costructors, operators","[one]"){
       THEN("The two EDM are equal"){
         REQUIRE(E.getEDM()==D.getEDM());
         REQUIRE(E.getMask() == D.getMask());
+        REQUIRE(E.getNoise() == D.getNoise());
       }
     }
     WHEN("Square root of the distances square is required"){
