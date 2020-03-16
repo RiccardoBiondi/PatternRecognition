@@ -5,7 +5,10 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
+
 #include "C:\Users\Riccardo\github\PatternRecognition\src\EDMatrix.hpp"
+
+#include "C:\Users\Riccardo\github\PatternRecognition\src\PointSet.hpp"
 /*
  *  EDMAtrix_test
  *
@@ -287,13 +290,13 @@ SCENARIO("classicalMDS","[five]"){
 
 
     WHEN("Perform the classicalMDS"){
-      Eigen::Matrix<double, 4,2> Res;
+      Eigen::Matrix<double, 2,4> Res;
       Res = ClassicalMDS<double,4,2>(D);
 
       THEN("We obtain the reconstructed point set, compared trhough frobenius norm"){
-      Eigen::Matrix<double,4,2> Diff;
-      Diff = Res + (-Sol);
-      Eigen::Matrix<double,4,4> NS;
+      Eigen::Matrix<double,2,4> Diff;
+      Diff = Res + (-Sol.transpose());
+      Eigen::Matrix<double,2,2> NS;
       NS = Diff*Diff.transpose();
       double norm = std::sqrt(NS.trace());
         //define the comparing functions
@@ -340,6 +343,39 @@ SCENARIO("EVTreshold test", "[six]"){
       }
 
     }
+  }
+
+}
+
+
+SCENARIO("Matrix Completion Test", "[seven]"){
+
+  GIVEN("An incomplete EDM with noise"){
+    const int nPoint = 10;
+    const int dim = 2;
+    PointSet<double,nPoint,dim> P (10);
+    P.AddMissEntires();
+    P.AddNoise(1.);
+
+    WHEN("Performing the RankCompleteEDM"){
+
+      EDMatrix<double,nPoint,dim> D;
+      D = RankCompleteEDM<double,nPoint,dim>(P.getEDM(),1e-07,1000);
+
+      THEN("We obtain a hollow and positive matrix"){
+
+        REQUIRE(D.is_hollow());
+        REQUIRE(D.is_positive());
+
+      }
+    }
+
+
+
+
+
+
+
   }
 
 }
