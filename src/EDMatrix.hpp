@@ -427,27 +427,45 @@ void EDMatrix<T,N,d>:: make_positive(){
 
 template<typename T, unsigned int N, unsigned int d>
 void EDMatrix<T,N,d> :: trim(){
-  //define sme useful quantity
+
+  std::clog<<"starting the trimming"<<std::endl;
+  //define some useful quantity
   unsigned int nEntires = 0;
   unsigned int eCol [N] = {0};
   unsigned int eRow [N] = {0};
   //counts the number of entires
   //counts also the entires foe ach row and column
+  std::clog<<"counting total, rows and columns entires"<<std::endl;
   for(unsigned int i=0 ; i<N; i++){
     for(unsigned int j=0; j<N; j++){
-      nEntires += W(i,j) == 1 ? 1:0;
-      eRow[i]  += W(i,j) == 1 ? 1:0;
-      eCol[j]  += W(i,j) == 1 ? 1:0;
+      nEntires += getMask()(i,j) == 1 ? 1:0;
+      eRow[i]  += getMask()(i,j) == 1 ? 1:0;
+      eCol[j]  += getMask()(i,j) == 1 ? 1:0;
     }
   }
+  std::clog<<"total entires: "<<nEntires<<std::endl;
 
   //define the threshold quantity
   double Tresh = 2*(double)nEntires / (double)N;
 
+  std::clog<<"treshold: "<<Tresh<<std::endl;
+
   //suppres over rapresented rows
+  std::clog<<"suppress over rapresented rows"<<std::endl;
   for(unsigned int i=0; i<N; i++){
-    if(eRow i < Tresh ) {}
+    if(eRow[i]> Tresh ) {m_Mask.row(i) =
+                          Eigen::Matrix<int,1,N>::Zero();}
+    else continue;
   }
+
+  //suppress over rappresented cols
+  std::clog<<"suppress over rapresented cols"<<std::endl;
+  for(unsigned int i=0; i<N; i++){
+    if(eCol[i] > Tresh){m_Mask.col(i) =
+                        Eigen::Matrix<int,N,1>::Zero();}
+    else continue;
+  }
+  std::clog<<"finish the trimming"<<std::endl;
 }
 
 //
