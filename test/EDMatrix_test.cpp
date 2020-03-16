@@ -190,23 +190,45 @@ SCENARIO("test the boolen methods", "[two]"){
 
 
 
-SCENARIO("make_hollow and make_positive tests","[three]"){
-  GIVEN("A not hollow and not positive matrix"){
-    Eigen:: MatrixXd B(4,4);
-      B << 0. , 16., 17.,18.,
-          16. , 3. , 19., 20.,
-          17. , 49., -1 , 21.,
-          13. , 25., 21., 0.;
-      EDMatrix<double,4,2> D(B);
+SCENARIO("make_hollow, make_positive and trim tests","[three]"){
+  GIVEN("A not hollow and not positive matrix and a mask"){
+    Eigen:: MatrixXd B(5,5);
+      B << 0. , 16., 17.,18. , 20.,
+          16. , 3. , 19., 20., 7. ,
+          17. , 49., -1 , 21., 15.,
+          13. , 25., 21., 0. , 3. ,
+          20. , 7. , 15., 3. , -2 ;
+
+
+    Eigen::Matrix<int,5,5>  W;
+
+      W << 1,0,0,0,0,
+           0,1,1,1,1,
+           0,1,0,0,0,
+           0,1,0,0,0,
+           0,1,0,0,0;
+      EDMatrix<double,5,2> D(B,W);
+
+      Eigen::Matrix<int,5,5> C;
+
+      C << 1,0,0,0,0,
+           0,0,0,0,0,
+           0,0,0,0,0,
+           0,0,0,0,0,
+           0,0,0,0,0;
+
+
 
       WHEN("use make hollow and make positive methods"){
         D.make_hollow();
         D.make_positive();
+        D.trim();
 
         THEN("D becomes hollow and positive"){
 
           REQUIRE(D.is_hollow());
           REQUIRE(D.is_positive());
+          REQUIRE(D.getMask() == C);
         }
       }
   }
