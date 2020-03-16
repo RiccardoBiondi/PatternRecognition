@@ -1,7 +1,7 @@
 #ifndef EDMATRIX_HPP
 #define EDMATRIX_HPP
 
-#include <Eigen\Eigenvalues>
+#include <eigen\Eigen\Eigenvalues>
 #include <cmath>
 #include <iostream>
 
@@ -55,7 +55,15 @@ class EDMatrix{
             m_EDM(t_EDM),m_Mask(t_Mask),m_Noise(t_Noise){
               /**
               *Parametric Constructor
-              *@params
+              *@params t_EDM -> NxN matrix which contains the quare of
+              *euclidean distances between the point of a given pointset
+              *@params t_Mask -> NxN int matrix which contains only 0
+              *and 1, 0 corresponds to an miss entire, 1 to a known
+              *entries. As default is set as One matrix.
+              *@params t_Noise -> NxN matrix which contains the error on
+              *the estimates square distances. As default is set as a
+              *matrix with only 0 entires.
+              *
               **/
             };
 
@@ -108,7 +116,7 @@ template<typename T, uInt N, uInt d>
 EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r);
 
 template<typename T, unsigned int N, unsigned int d>
-Eigen::Matrix<T,N,d> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM);
+Eigen::Matrix<T,d,N> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM);
 
 template<typename T, unsigned int N, unsigned int d>
 Eigen::Matrix<T,N,d> AlternatingDescend(const EDMatrix<T,N,d> & t_EDM);
@@ -161,6 +169,7 @@ EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator  =
 
       setEDM(t_EDMatrix.getEDM());
       setMask(t_EDMatrix.getMask());
+      setNoise(t_EDMatrix.getNoise());
       return *this;
                                     }
 
@@ -416,6 +425,30 @@ void EDMatrix<T,N,d>:: make_positive(){
 
 
 
+template<typename T, unsigned int N, unsigned int d>
+void EDMatrix<T,N,d> :: trim(){
+  //define sme useful quantity
+  unsigned int nEntires = 0;
+  unsigned int eCol [N] = {0};
+  unsigned int eRow [N] = {0};
+  //counts the number of entires
+  //counts also the entires foe ach row and column
+  for(unsigned int i=0 ; i<N; i++){
+    for(unsigned int j=0; j<N; j++){
+      nEntires += W(i,j) == 1 ? 1:0;
+      eRow[i]  += W(i,j) == 1 ? 1:0;
+      eCol[j]  += W(i,j) == 1 ? 1:0;
+    }
+  }
+
+  //define the threshold quantity
+  double Tresh = 2*(double)nEntires / (double)N;
+
+  //suppres over rapresented rows
+  for(unsigned int i=0; i<N; i++){
+    if(eRow i < Tresh ) {}
+  }
+}
 
 //
 //Eigne::Matrix methods
@@ -558,14 +591,14 @@ EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r){
 //
 
 template<typename T, unsigned int N, unsigned int d>
-Eigen::Matrix<T,N,d> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
+Eigen::Matrix<T,d,N> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
 
   /**
   * Perform the classical multi dimensional scaling
   *
   *@params t_EDM Euclidean distace matrix from which reconstruct the point set
   *
-  é@returns Nxd matrix which is the reconstructed point set up to a translation and rotation.
+  @returns Nxd matrix which is the reconstructed point set up to a translation and rotation.
   */
 
 
@@ -581,11 +614,12 @@ Eigen::Matrix<T,N,d> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
   eigen_sqrt<T,N>(eigenval);
   Eigen::Matrix<T,N,N>A =
                     eigenval.asDiagonal()*eigenvec.transpose();
+
   Eigen::Matrix<T,N,d> X;
   for(unsigned int i=0; i<d; ++i){
                   X.col(i) = A.transpose().col(i);}
 
-  return X;
+  return X.transpose();
 
 }
 //
@@ -593,6 +627,63 @@ Eigen::Matrix<T,N,d> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
 //FUNCTIONS TO PERFORM THE MATRIX COMPLETION
 //
 //
+
+template<typename T, unsigned int N, unsigned int d>
+EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM, T MAX_TOL,
+                                unsigned int MAX_ITER){
+
+  /**
+  *Perform the matrix completion and the noise reduction by using the
+  *rank proprieties of EDM.
+  *@params t_EDM -> EDM to Complete
+  *@params MAX_TOL -> treshold to establish the convergence of the
+  *logoritm.
+  *@params MAX_ITER -> max number of iter to do before stop the
+  *algroitm, even if it doesn't converges.
+  **/
+  //quantity to use inside the cicle
+  uInt count = 0;
+  T conv;
+  EDMatrix<T,N,d> D_old;
+  //Compute the mean
+  T mu = t_EDM.hadamard().mean();
+  //Create the matrix to work with
+  Eigen::Matrix<T,N,N> A ;
+  for(uInt R = 0; R< N ; R++){
+    for(uInt C = R; C<N; C++ ){
+      A(R,C) = t_EDM.getMask()(R,C) == 1 ? t_EDM.getEDM()(R,C) : mu;
+      A(C,R) = A(R,C);
+    }
+  }
+
+  EDMatrix<T,N,d> EDM(A);
+  //start the cicle
+  do{
+    //Store the old value
+    D_old = EDM;
+    //Upgrade the value: EVTreshold
+    EDM = EVTreshold(EDM,d+2);
+    //Enforce known entires
+    for(uInt i = 0; i<N; i++){
+      for(uInt j=i; j<N; j++){
+        EDM(i,j) = t_EDM.getMask()(i,j) == 1 ? t_EDM.getEDM()(i,j) : EDM(i,j) ;
+
+        EDM(j,i) = EDM(i,j);
+      }
+    }
+    //make hollow
+    EDM.make_hollow();
+    //make positive
+    EDM.make_positive();
+
+    //Check convergence
+    conv = (D_old-EDM).frobenius_norm();
+    count++;
+  }while(count < MAX_ITER && conv > MAX_TOL);
+
+  return EDM;
+}
+
 
 
 #endif
