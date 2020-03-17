@@ -282,7 +282,9 @@ SCENARIO("gc_matrix, gramm, hadamard and frobenius norm ", "[four]"){
       double norm = std::sqrt(R.trace());
           THEN("The method return the correct result"){
             REQUIRE(D.hadamard() == S);
+            REQUIRE(hadamard<double,int,4,4>(A,W)==S );
             REQUIRE(D.frobenius_norm() == norm);
+            REQUIRE(frobenius_norm<double,4,4>(D.hadamard()) == norm);
           }
     }}
   }
