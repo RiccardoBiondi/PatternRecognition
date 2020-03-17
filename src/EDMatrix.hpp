@@ -102,7 +102,7 @@ class EDMatrix{
     void trim();
 
     Eigen::Matrix<T,N,N> gc_matrix() const;
-    Eigen::Matrix<T,N,N> hadamard() const;
+    //Eigen::Matrix<T,N,N> hadamard() const;
     Eigen::Matrix<T,N,N> gramm() const;
 
     T frobenius_norm();
@@ -481,25 +481,6 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gc_matrix() const{
 
 
 
-template<typename T, unsigned int N, unsigned int d>
-Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: hadamard() const {
-
-  /**
-  *Perform the Hadamard product between EDM and mask
-  *@return EDM with missing entires
-  */
-
-  Eigen::Matrix<T,N,N> Result;
-  for(unsigned int i=0; i<N; ++i){
-    for(unsigned int j=i; j<N;++j){
-      Result(i,j) = m_EDM(i,j)*m_Mask(i,j);
-      Result(j,i) = m_EDM(j,i)*m_Mask(j,i);
-    }
-  }
-  return Result;
-}
-
-
 
 template<typename T, unsigned int N, unsigned int d>
 Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gramm() const{
@@ -513,7 +494,9 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gramm() const{
   * D is the Eucliden Distance Matrix (m_EDM).
   */
 
-  return -0.5*gc_matrix()*hadamard()*gc_matrix();
+  Eigen::Matrix<T,N,N> D;
+  D = hadamard<T,int,N,N>((getEDM()+getNoise()), getMask());
+  return -0.5*gc_matrix()*D*gc_matrix();
 
 
 
@@ -534,7 +517,7 @@ T EDMatrix<T,N,d>:: frobenius_norm(){
   /**
   * Perform the frombenius norm of the EDM with missing entires
   */
-  Eigen::Matrix<T,N,N> D = hadamard();
+  Eigen::Matrix<T,N,N> D = hadamard<T,int,N,N>(getEDM()+getNoise(),getMask());
   T norm = 0;
   for(unsigned int i=0; i<N; ++i){
     for(unsigned int j=0; j<N; ++j){
@@ -609,7 +592,10 @@ EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r){
   @returs An eucliden distance matrix.
   **/
 
-  Eigen::EigenSolver<Eigen::Matrix<T,N,N>> es(t_EDM.hadamard());
+  Eigen::Matrix<T,N,N> EDM;
+  EDM = hadamard<T,int,N,N>(t_EDM.getEDM()+t_EDM.getNoise(), t_EDM.getMask());
+
+  Eigen::EigenSolver<Eigen::Matrix<T,N,N>> es(EDM);
   Eigen::Matrix<T,N,1> eigenval =
                           cast_real<T,N,1>(es.eigenvalues());
   Eigen::Matrix<T,N,N> eigenvec =
@@ -643,7 +629,6 @@ Eigen::Matrix<T,d,N> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
   *
   @returns Nxd matrix which is the reconstructed point set up to a translation and rotation.
   */
-
 
   Eigen::EigenSolver<Eigen::Matrix<T,N,N>> es(t_EDM.gramm());
 
@@ -688,13 +673,15 @@ EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM, T MAX_TOL,
   uInt count = 0;
   T conv;
   EDMatrix<T,N,d> D_old;
+  Eigen::Matrix<T,N,N> D;
+  D = hadamard<T,int,N,N>(t_EDM.getEDM()+t_EDM.getNoise(), t_EDM.getMask());
   //Compute the mean
-  T mu = t_EDM.hadamard().mean();
+  T mu = D.mean();
   //Create the matrix to work with
   Eigen::Matrix<T,N,N> A ;
   for(uInt R = 0; R< N ; R++){
     for(uInt C = R; C<N; C++ ){
-      A(R,C) = t_EDM.getMask()(R,C) == 1 ? t_EDM.getEDM()(R,C) : mu;
+      A(R,C) = t_EDM.getMask()(R,C) == 1 ? D(R,C) : mu;
       A(C,R) = A(R,C);
     }
   }
@@ -709,7 +696,7 @@ EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM, T MAX_TOL,
     //Enforce known entires
     for(uInt i = 0; i<N; i++){
       for(uInt j=i; j<N; j++){
-        EDM(i,j) = t_EDM.getMask()(i,j) == 1 ? t_EDM.getEDM()(i,j) : EDM(i,j) ;
+        EDM(i,j) = t_EDM.getMask()(i,j) == 1 ? D(i,j) : EDM(i,j) ;
 
         EDM(j,i) = EDM(i,j);
       }
