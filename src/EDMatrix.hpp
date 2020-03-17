@@ -28,11 +28,13 @@ class EDMatrix{
 
 /**
 * \class EDMatrix, provides methods to build and works with Euclidean Distance Matrix(EDM)
-* EDMatrix need Eigen 3.3.7 to work.
+* EDMatrix use Eigen 3.3.7 to work.
 * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-* @tparam T type of entries of the EDM, can be double, float or int
-* @tparam unsigned int N, number of points from which EDM is created. Is the dimension of the NxN EDM.
-* @tparam unsigned ind dimension of the euclidean space in which points
+* @tparam T type of entries of the EDM, can be double, float.
+* @tparam unsigned int N, number of points from which EDM is
+*created. Is the dimension of the NxN EDM.
+* @tparam unsigned int dimension of the euclidean space in
+*which points
 *live
 */
 
@@ -97,7 +99,7 @@ class EDMatrix{
 
     void make_hollow();
     void make_positive();
-    void trim();//TODO
+    void trim();
 
     Eigen::Matrix<T,N,N> gc_matrix() const;
     Eigen::Matrix<T,N,N> hadamard() const;
@@ -107,9 +109,13 @@ class EDMatrix{
 
 };
 
+//Some usefull tools to work with matrices
+template<typename T,typename X, uInt Row, uInt Col>
+Eigen::Matrix<T,Row,Col> hadamard(const Eigen::Matrix<T,Row,Col>& t_A,
+                                  const Eigen::Matrix<X,Row,Col>& t_B);
 
-
-
+template<typename T, uInt Row, uInt Col>
+T frobenius_norm (const Eigen::Matrix<T,Row,Col>& t_M);
 
 //Declaratin of externam methods
 template<typename T, uInt N, uInt d>
@@ -428,44 +434,32 @@ void EDMatrix<T,N,d>:: make_positive(){
 template<typename T, unsigned int N, unsigned int d>
 void EDMatrix<T,N,d> :: trim(){
 
-  std::clog<<"starting the trimming"<<std::endl;
   //define some useful quantity
   unsigned int nEntires = 0;
-  unsigned int eCol [N] = {0};
   unsigned int eRow [N] = {0};
   //counts the number of entires
   //counts also the entires foe ach row and column
-  std::clog<<"counting total, rows and columns entires"<<std::endl;
+
   for(unsigned int i=0 ; i<N; i++){
     for(unsigned int j=0; j<N; j++){
       nEntires += getMask()(i,j) == 1 ? 1:0;
       eRow[i]  += getMask()(i,j) == 1 ? 1:0;
-      eCol[j]  += getMask()(i,j) == 1 ? 1:0;
     }
   }
-  std::clog<<"total entires: "<<nEntires<<std::endl;
 
   //define the threshold quantity
   double Tresh = 2*(double)nEntires / (double)N;
 
-  std::clog<<"treshold: "<<Tresh<<std::endl;
+
 
   //suppres over rapresented rows
-  std::clog<<"suppress over rapresented rows"<<std::endl;
-  for(unsigned int i=0; i<N; i++){
-    if(eRow[i]> Tresh ) {m_Mask.row(i) =
-                          Eigen::Matrix<int,1,N>::Zero();}
-    else continue;
-  }
 
-  //suppress over rappresented cols
-  std::clog<<"suppress over rapresented cols"<<std::endl;
   for(unsigned int i=0; i<N; i++){
-    if(eCol[i] > Tresh){m_Mask.col(i) =
-                        Eigen::Matrix<int,N,1>::Zero();}
+    if(eRow[i]> Tresh ) {
+      m_Mask.row(i) = Eigen::Matrix<int,1,N>::Zero();
+      m_Mask.col(i) = Eigen::Matrix<int,N,1>::Zero();}
     else continue;
   }
-  std::clog<<"finish the trimming"<<std::endl;
 }
 
 //
@@ -504,7 +498,6 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: hadamard() const {
   }
   return Result;
 }
-
 
 
 
@@ -568,6 +561,38 @@ T EDMatrix<T,N,d>:: frobenius_norm(){
 //
 // INTERNAL FUNCTIONS
 //
+
+template<typename T,typename X, uInt Row, uInt Col>
+Eigen::Matrix<T,Row,Col> hadamard(const Eigen::Matrix<T,Row,Col>& t_A,
+                                  const Eigen::Matrix<X,Row,Col>& t_B)
+{
+/**
+@return the hadamart product between matrix t_A and matrix t_B.
+**/
+  Eigen::Matrix<T,Row,Col> Result;
+  for(unsigned int i=0; i<Row; ++i){
+    for(unsigned int j=0; j<Col;++j){
+      Result(i,j) = t_A(i,j)*t_B(i,j);
+    }
+  }
+  return Result;
+
+}
+
+
+template<typename T, uInt Row, uInt Col>
+T frobenius_norm(const Eigen::Matrix<T,Row,Col>& t_M){
+/**
+Compute the frobenius norm of the matrix t_M
+**/
+  T norm = 0;
+  for(unsigned int i=0; i<Row; ++i){
+    for(unsigned int j=0; j<Col; ++j){
+      norm += std::pow(t_M(i,j),2);
+    }
+  }
+  return std::sqrt(norm);
+}
 
 
 template<typename T,unsigned int N, unsigned int d>
