@@ -1,0 +1,165 @@
+\hypertarget{class_procrustes}{}\doxysection{Procrustes$<$ T, N, d $>$ Class Template Reference}
+\label{class_procrustes}\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+
+
+{\ttfamily \#include $<$Procrustes.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_procrustes_a6287aaeba791e41c131394e16d65db77}{Procrustes}} (const Eigen\+::\+Matrix$<$ T, d, N $>$ \&t\+\_\+\+Reference, const Eigen\+::\+Matrix$<$ T, d, N $>$ \&t\+\_\+\+Configuration)
+\item 
+\mbox{\hyperlink{class_procrustes_a470ad148dee40fbf16b0451676ae3041}{Procrustes}} (const \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$ \&o\+\_\+procrustes)
+\item 
+Eigen\+::\+Matrix$<$ T, d, N $>$ \mbox{\hyperlink{class_procrustes_aea75d862491af92ab3aa2e524ed7c9df}{get\+Reference}} () const
+\item 
+Eigen\+::\+Matrix$<$ T, d, N $>$ \mbox{\hyperlink{class_procrustes_a5eb72a65369334c2f800e66d7273008f}{get\+Configuration}} () const
+\item 
+Eigen\+::\+Matrix$<$ T, d, N $>$ \mbox{\hyperlink{class_procrustes_af45a41bdb90f8cebcf9733770162bafb}{get\+New\+Configuration}} () const
+\item 
+Eigen\+::\+Matrix$<$ T, d, d $>$ \mbox{\hyperlink{class_procrustes_a88f074a4d73d13b6693a4d8f94d59184}{Rotation}} () const
+\item 
+T \mbox{\hyperlink{class_procrustes_aef8b72bfcbc6fbe835ad8d1026f0b96e}{Scale}} () const
+\item 
+void \mbox{\hyperlink{class_procrustes_a2bb695e4004022597ffe56b4329c0fba}{Centering}} ()
+\item 
+void \mbox{\hyperlink{class_procrustes_aa4080136d7755e623f9c67f82928875d}{Normalize}} ()
+\item 
+void \mbox{\hyperlink{class_procrustes_a611d78a81fd48be5d41ae8ea2d5052ef}{Full\+O\+PA}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T, unsigned int N, unsigned int d$>$\newline
+class Procrustes$<$ T, N, d $>$}
+
+\mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}} v2.\+0.\+0 \hypertarget{class_procrustes_autotoc_md1}{}\doxysubsubsection{Starting Generation\+: 2020-\/03-\/20}\label{class_procrustes_autotoc_md1}
+This file contains the implementations of the template class Prcrustes that contains tools to perform the \mbox{\hyperlink{class_procrustes}{Procrustes}} alignment of two set of $\ast$point in the euclidean space
+
+Requirments\+: Eigen 3.\+3.\+7, in particular the module Eigenvalues and the module S\+VD I\textquotesingle{}ve performed test by using Catch v2.\+11.\+0
+
+to perform the prcrustes analysis
+
+\mbox{\hyperlink{class_procrustes}{Procrustes}} use Eigen 3.\+3.\+7 to work.
+
+\DoxyHorRuler
+ 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type of entries of the \mbox{\hyperlink{class_point_set}{Point\+Set}}, can be double or float. \\
+\hline
+{\em N} & Number of points in the two set of points \\
+\hline
+{\em d} & Dimension of the euclidean space in \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_procrustes_a6287aaeba791e41c131394e16d65db77}\label{class_procrustes_a6287aaeba791e41c131394e16d65db77}} 
+\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!Procrustes@{Procrustes}}
+\index{Procrustes@{Procrustes}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+\doxysubsubsection{\texorpdfstring{Procrustes()}{Procrustes()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+\mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::\mbox{\hyperlink{class_procrustes}{Procrustes}} (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Matrix$<$ T, d, N $>$ \&}]{t\+\_\+\+Reference,  }\item[{const Eigen\+::\+Matrix$<$ T, d, N $>$ \&}]{t\+\_\+\+Configuration }\end{DoxyParamCaption})}
+
+Parametric Constructor 
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+\+Reference} & dxN matrix which contains the reference set of points \\
+\hline
+{\em t\+\_\+\+Configuration} & dxN matrix which contains the set of points to aligna to t\+\_\+\+Reference\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_procrustes_a470ad148dee40fbf16b0451676ae3041}\label{class_procrustes_a470ad148dee40fbf16b0451676ae3041}} 
+\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!Procrustes@{Procrustes}}
+\index{Procrustes@{Procrustes}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+\doxysubsubsection{\texorpdfstring{Procrustes()}{Procrustes()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+\mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::\mbox{\hyperlink{class_procrustes}{Procrustes}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$ \&}]{o\+\_\+procrustes }\end{DoxyParamCaption})}
+
+Copy constructor
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_procrustes_a2bb695e4004022597ffe56b4329c0fba}\label{class_procrustes_a2bb695e4004022597ffe56b4329c0fba}} 
+\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!Centering@{Centering}}
+\index{Centering@{Centering}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+\doxysubsubsection{\texorpdfstring{Centering()}{Centering()}}
+{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+void \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::Centering (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Center the two set of points by using the centering matrix $C = I - -\frac{1}{N}11^T$ \begin{DoxyNote}{Note}
+Modiphy m\+\_\+\+Reference and m\+\_\+\+Configuration themself
+\end{DoxyNote}
+\mbox{\Hypertarget{class_procrustes_a611d78a81fd48be5d41ae8ea2d5052ef}\label{class_procrustes_a611d78a81fd48be5d41ae8ea2d5052ef}} 
+\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!FullOPA@{FullOPA}}
+\index{FullOPA@{FullOPA}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+\doxysubsubsection{\texorpdfstring{FullOPA()}{FullOPA()}}
+{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+void \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::Full\+O\+PA (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Perform the Full Ordinary \mbox{\hyperlink{class_procrustes}{Procrustes}} Analysis\mbox{\Hypertarget{class_procrustes_a5eb72a65369334c2f800e66d7273008f}\label{class_procrustes_a5eb72a65369334c2f800e66d7273008f}} 
+\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!getConfiguration@{getConfiguration}}
+\index{getConfiguration@{getConfiguration}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+\doxysubsubsection{\texorpdfstring{getConfiguration()}{getConfiguration()}}
+{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+Eigen\+::\+Matrix$<$ T, d, N $>$ \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::get\+Configuration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+the configuration set of points
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_procrustes_af45a41bdb90f8cebcf9733770162bafb}\label{class_procrustes_af45a41bdb90f8cebcf9733770162bafb}} 
+\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!getNewConfiguration@{getNewConfiguration}}
+\index{getNewConfiguration@{getNewConfiguration}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+\doxysubsubsection{\texorpdfstring{getNewConfiguration()}{getNewConfiguration()}}
+{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+Eigen\+::\+Matrix$<$ T, d, N $>$ \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::get\+New\+Configuration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+the aligned set of points, If procustes analysis has been performed
+
+the original configuration, If procrustes analysis hasn\textquotesingle{}t been performed yet
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_procrustes_aea75d862491af92ab3aa2e524ed7c9df}\label{class_procrustes_aea75d862491af92ab3aa2e524ed7c9df}} 
+\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!getReference@{getReference}}
+\index{getReference@{getReference}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+\doxysubsubsection{\texorpdfstring{getReference()}{getReference()}}
+{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+Eigen\+::\+Matrix$<$ T, d, N $>$ \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::get\+Reference (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+The reference set of points
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_procrustes_aa4080136d7755e623f9c67f82928875d}\label{class_procrustes_aa4080136d7755e623f9c67f82928875d}} 
+\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!Normalize@{Normalize}}
+\index{Normalize@{Normalize}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+\doxysubsubsection{\texorpdfstring{Normalize()}{Normalize()}}
+{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+void \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::Normalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Normilize the two set of points by using the Euclidean Norm \begin{DoxyNote}{Note}
+Modiphy m\+\_\+\+Configuration and m\+\_\+\+Reference themself
+\end{DoxyNote}
+\mbox{\Hypertarget{class_procrustes_a88f074a4d73d13b6693a4d8f94d59184}\label{class_procrustes_a88f074a4d73d13b6693a4d8f94d59184}} 
+\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!Rotation@{Rotation}}
+\index{Rotation@{Rotation}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+\doxysubsubsection{\texorpdfstring{Rotation()}{Rotation()}}
+{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+Eigen\+::\+Matrix$<$ T, d, d $>$ \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::Rotation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+the rotation matrix used to align m\+\_\+\+Configuration to m\+\_\+\+Reference
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_procrustes_aef8b72bfcbc6fbe835ad8d1026f0b96e}\label{class_procrustes_aef8b72bfcbc6fbe835ad8d1026f0b96e}} 
+\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!Scale@{Scale}}
+\index{Scale@{Scale}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+\doxysubsubsection{\texorpdfstring{Scale()}{Scale()}}
+{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+T \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::Scale (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+the scaling factor
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_procrustes_8hpp}{Procrustes.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,28 @@
+var class_e_d_matrix =
+[
+    [ "EDMatrix", "class_e_d_matrix.html#a22fbd32a9a983ceaa12a231686ea1fab", null ],
+    [ "EDMatrix", "class_e_d_matrix.html#ac68b0862e187bc4ea738db564e15ca33", null ],
+    [ "EDMatrix", "class_e_d_matrix.html#a9ff66fdae1c45ecd87eb13615b7299c4", null ],
+    [ "frobenius_norm", "class_e_d_matrix.html#a243ccbd05243c89b6d3c728c6e30e715", null ],
+    [ "gc_matrix", "class_e_d_matrix.html#a653257bc91f1154ee93305803162d779", null ],
+    [ "getEDM", "class_e_d_matrix.html#ad79eaf90a6f0424359b30437c49318b3", null ],
+    [ "getMask", "class_e_d_matrix.html#ab2ed8422baebe7fbabd01682ddf73dbc", null ],
+    [ "getNoise", "class_e_d_matrix.html#a68b3a3816d0059a5bb05b01004d10163", null ],
+    [ "gramm", "class_e_d_matrix.html#a78d25c8f99e0e6ca5ad4b8275eb00822", null ],
+    [ "is_EDM", "class_e_d_matrix.html#a3a6d3cf30379df8e600022b700011284", null ],
+    [ "is_hollow", "class_e_d_matrix.html#a89b66d090a3a97c9920d80bd0939d636", null ],
+    [ "is_positive", "class_e_d_matrix.html#adc059189123a49ee1bf9e86d669c0df7", null ],
+    [ "is_symmetric", "class_e_d_matrix.html#a6d70d20f28fe15bbeddd241a955cb12e", null ],
+    [ "is_triang_inh", "class_e_d_matrix.html#a79a7aecead0329e4bccfa9c56ca70b22", null ],
+    [ "make_hollow", "class_e_d_matrix.html#a752e1ceadff943cf6b6e4e9b2c94fc44", null ],
+    [ "make_positive", "class_e_d_matrix.html#a9edec0d75da978bea4badcfedbe65566", null ],
+    [ "operator()", "class_e_d_matrix.html#a9f86edd9d451f4dbad3677b60e2a3d3f", null ],
+    [ "operator+", "class_e_d_matrix.html#a0fd681cb078e7c39e78b0529de8790de", null ],
+    [ "operator-", "class_e_d_matrix.html#abbcc897bf4c8c801f446a3813ee06397", null ],
+    [ "operator=", "class_e_d_matrix.html#a2b2f951d74ece9120ae691435cc43512", null ],
+    [ "setEDM", "class_e_d_matrix.html#aa226c33ff77aaadebc8d1f957d3c10c0", null ],
+    [ "setMask", "class_e_d_matrix.html#ada26bd6115a85079f6b99f58a257783c", null ],
+    [ "setNoise", "class_e_d_matrix.html#ac0d6ad3b283881cf91f542f9e135948a", null ],
+    [ "sqrt", "class_e_d_matrix.html#a9e71f7d5e81104b270fefb6a216f41b9", null ],
+    [ "trim", "class_e_d_matrix.html#af5160520998f4281214a3c56d2a2ae9e", null ]
+];
