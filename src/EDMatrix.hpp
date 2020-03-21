@@ -7,7 +7,7 @@
 
 #include "miscellanea.hpp"
 
-//Typedef to improve code readability
+
 typedef unsigned int uInt;
 
 /**
@@ -27,9 +27,10 @@ template<typename T, uInt N, uInt d>
 class EDMatrix{
 
 /**
-* \class EDMatrix, provides methods to build and works with Euclidean Distance Matrix(EDM)
+* \class EDMatrix, provides methods to build and works with Euclidean
+*Distance Matrix(EDM)
 * EDMatrix use Eigen 3.3.7 to work.
-* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
 * @tparam T type of entries of the EDM, can be double, float.
 * @tparam unsigned int N, number of points from which EDM is
 *created. Is the dimension of the NxN EDM.
@@ -43,11 +44,10 @@ class EDMatrix{
     Eigen::Matrix<int,N,N> m_Mask;
     Eigen::Matrix<T,N,N> m_Noise;
 
+
   public:
     //Constructors
     EDMatrix();
-
-    //Parametric Constructor
 
     EDMatrix(Eigen::Matrix<T,N,N> t_EDM,
             Eigen::Matrix<int,N,N> t_Mask =
@@ -70,17 +70,16 @@ class EDMatrix{
             };
 
     EDMatrix(const EDMatrix<T,N,d>& o_EDM);
-    //operator
-    EDMatrix<T,N,d> operator = (const EDMatrix<T,N,d>& t_EDMatrix);
 
-    //Aritmetic operators
+    //operators
+    EDMatrix<T,N,d> operator = (const EDMatrix<T,N,d>& t_EDMatrix);
     EDMatrix<T,N,d> operator + (const EDMatrix<T,N,d>& t_EDM);
     EDMatrix<T,N,d> operator - (const EDMatrix<T,N,d>& t_EDM);
-    //Access operator
     T& operator () (uInt Row , uInt Col);
 
-    //sqrt
+
     EDMatrix<T,N,d> sqrt() const;
+
     //getter and setter
     Eigen::Matrix<T,N,N> getEDM() const;
     Eigen::Matrix<int,N,N> getMask() const;
@@ -102,7 +101,6 @@ class EDMatrix{
     void trim();
 
     Eigen::Matrix<T,N,N> gc_matrix() const;
-    //Eigen::Matrix<T,N,N> hadamard() const;
     Eigen::Matrix<T,N,N> gramm() const;
 
     T frobenius_norm();
@@ -121,17 +119,19 @@ T frobenius_norm (const Eigen::Matrix<T,Row,Col>& t_M);
 template<typename T, uInt N, uInt d>
 EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r);
 
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 Eigen::Matrix<T,d,N> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM);
 
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 Eigen::Matrix<T,N,d> AlternatingDescend(const EDMatrix<T,N,d> & t_EDM);
 
-template<typename T, unsigned int N, unsigned int d>
-EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM);
+template<typename T, uInt N, uInt d>
+EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM,
+                                T MAX_TOL,
+                                unsigned int MAX_ITER);
 
 
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 EDMatrix<T,N,d> OptSpace (const EDMatrix<T,N,d>& t_EDM);
 
 
@@ -169,21 +169,24 @@ EDMatrix<T,N,d>:: EDMatrix(const EDMatrix<T,N,d> & o_EDM):
                   }
 //Copy assignement operator
 
-template<typename T, unsigned int N, unsigned int d>
-EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator  =
-                                    (const EDMatrix<T,N,d>& t_EDMatrix){
-
-      setEDM(t_EDMatrix.getEDM());
-      setMask(t_EDMatrix.getMask());
-      setNoise(t_EDMatrix.getNoise());
-      return *this;
-                                    }
+template<typename T, uInt N, uInt d>
+EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator  = (const EDMatrix<T,N,d>& t_EDM){
+  /**
+  * Copy assignement operator. set EDM, Noise and MAsk equal to t_EDM
+  *ones
+  *@returns *this
+  **/
+  setEDM(t_EDM.getEDM());
+  setMask(t_EDM.getMask());
+  setNoise(t_EDM.getNoise());
+  return *this;
+}
 
 
 //Aritmetic operators
 template<typename T, uInt N, uInt d>
-EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator + (const EDMatrix<T,N,d>&
-                                                    t_EDM){
+EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator + (const EDMatrix<T,N,d>& t_EDM)
+{
   /**
   *Perform the sum of two euclidean distance matrix
   *@perams this-> First Adder
@@ -196,8 +199,7 @@ EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator + (const EDMatrix<T,N,d>&
 }
 
 template<typename T, uInt N, uInt d>
-EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator - (const EDMatrix<T,N,d>&
-                                                    t_EDM){
+EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator - (const EDMatrix<T,N,d>& t_EDM){
   /**
   *Perform the sum of two euclidean distance matrix
   *@perams this-> First Adder
@@ -228,31 +230,28 @@ T& EDMatrix<T,N,d>:: operator () (uInt Row , uInt Col)
 //
 //sqrt operator
 //
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 EDMatrix<T,N,d> EDMatrix<T,N,d>:: sqrt() const {
+  /**
+  *@returns square root of the element of m_EDM
+  **/
 
-  EDMatrix<T,N,d> R(getEDM(), getMask());
+  EDMatrix<T,N,d> R(getEDM(), getMask(),getNoise());
   for(unsigned int i=0; i< N ;i++){
     for(unsigned int j=i; j<N; j++){
       R(i,j) = std::sqrt(getEDM()(i,j));
-      R(j,i) = std::sqrt(getEDM()(j,i));
+      R(j,i) = R(i,j);
     }
   }
   return R;
-
 }
 
 
 
-
-
-//
-//Getter definition
-//
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: getEDM() const{
   /**
-  * getter. @returns m_EDM.
+  *@returns m_EDM.
   *@see getMask
   *@see getNoise
   */
@@ -260,10 +259,11 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: getEDM() const{
 }
 
 
-template<typename T, unsigned int N, unsigned int d>
+
+template<typename T, uInt N, uInt d>
 Eigen::Matrix<int,N,N> EDMatrix<T,N,d>:: getMask() const{
   /**
-  * getter. @returns m_Mask
+  *@returns m_Mask
   *@see getEDM
   *@see getNoise
   */
@@ -271,10 +271,10 @@ Eigen::Matrix<int,N,N> EDMatrix<T,N,d>:: getMask() const{
 }
 
 
+
 template<typename T, uInt N, uInt d>
 Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: getNoise() const{
   /**
-  *Getter
   *@returns m_Noise
   *@see getEDM
   *@see getMask
@@ -282,24 +282,30 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: getNoise() const{
   return m_Noise;
 }
 
-//
-//Setter Definitions
-//
 
-template<typename T, unsigned int N, unsigned int d>
+
+template<typename T, uInt N, uInt d>
 void EDMatrix<T,N,d>:: setEDM(const Eigen::Matrix<T,N,N>& t_EDM){
   /**
-  * assign to m_EDM the t_EDM value
+  * Set m_EDM to t_EDM
   * @param const Eigen::Matrix<T,N,N>& t_EDM
+  *
+  *@see setMask
+  *@seeNoise
   */
   m_EDM = t_EDM;
 }
 
-template<typename T,unsigned int N, unsigned int d>
+
+
+template<typename T,uInt N, uInt d>
 void EDMatrix<T,N,d>:: setMask(const Eigen::Matrix<int,N,N>& t_Mask){
   /**
-  * set the value of m_Mask to t_Mask
+  * Set m_Mask to t_Mask
   * @param const Eigen:: Matrix<int,N,N>& t_Mask
+  *
+  *@see setEDM
+  *@see setNoise
   */
   m_Mask = t_Mask;
 }
@@ -310,16 +316,18 @@ template<typename T, uInt N, uInt d>
 void EDMatrix<T,N,d>:: setNoise(const Eigen::Matrix<T,N,N>& t_Noise){
 
   /**
-  * set the value of m_Noise to t_Noise
+  * Set m_Noise to t_Noise
   * @param const Eigen:: Matrix<T,N,N>& t_Noise
+  *
+  *@see setEDM
+  *@see setMask
   */
   m_Noise = t_Noise;
 }
-//
-//boolean methods
-//
 
-template<typename T, unsigned int N, unsigned int d>
+
+
+template<typename T, uInt N, uInt d>
 bool EDMatrix<T,N,d>:: is_hollow(){
   /**
   * Check if the diagonal of the EDM is composed only by 0 values.
@@ -327,8 +335,8 @@ bool EDMatrix<T,N,d>:: is_hollow(){
   *@returns false in the matrix is not hollow
   */
 
-  int check = 0;
-  for(unsigned int i=0; i<N; ++i){
+  uInt check = 0;
+  for(uInt i=0; i<N; ++i){
     check += m_EDM(i,i) == 0 ? 0:1;
   }
   return check == 0;
@@ -336,8 +344,7 @@ bool EDMatrix<T,N,d>:: is_hollow(){
 
 
 
-
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 bool EDMatrix<T,N,d>:: is_positive(){
   /**
   * chek if all the entires of EDM are greater or equal to zero
@@ -353,7 +360,7 @@ bool EDMatrix<T,N,d>:: is_positive(){
 
 
 
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 bool EDMatrix<T,N,d>:: is_symmetric(){
   /**
   * Check if the matrix is symmetric
@@ -364,7 +371,7 @@ bool EDMatrix<T,N,d>:: is_symmetric(){
 
 
 
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 bool EDMatrix<T,N,d>:: is_triang_inh(){
   /**
   * Check inf the triangular inhequality is verified
@@ -374,16 +381,17 @@ bool EDMatrix<T,N,d>:: is_triang_inh(){
     for(unsigned int j=i; j< N ; ++j){
       for(unsigned int k=j; k< N ; ++k){
 
-        check += std::sqrt(m_EDM(i,j)) <= std::sqrt(m_EDM(i,k))+std::sqrt(m_EDM(k,j))? 0:1;
+        check += std::sqrt(m_EDM(i,j)) <=
+                      std::sqrt(m_EDM(i,k))+std::sqrt(m_EDM(k,j))? 0:1;
       }
     }
-
   }
   return check == 0;
 }
 
 
-template<typename T,unsigned int N, unsigned int d>
+
+template<typename T, uInt N, uInt d>
 bool EDMatrix<T,N,d>:: is_EDM(){
   /**
   * Check if all the proprieties of EDM are verified
@@ -393,17 +401,15 @@ bool EDMatrix<T,N,d>:: is_EDM(){
 
 
 
-//
-//void methods
-//
-
-
-template<typename T,unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 void EDMatrix<T,N,d>:: make_hollow(){
 
   /**
-  * Force the hollowness of the matrix by setting all the diagonal entires to zero.
+  * Force the hollowness of the matrix by setting all the diagonal entires to
+  *zero.
   *@note Modiphy m_EDM itself
+  *
+  *@see make_positive
   */
 
   for(unsigned int i=0; i<N; ++i){
@@ -413,26 +419,31 @@ void EDMatrix<T,N,d>:: make_hollow(){
 
 
 
-template<typename T, unsigned int N,unsigned int d>
+template<typename T, uInt N, uInt d>
 void EDMatrix<T,N,d>:: make_positive(){
   /**
   *Force the postivness of the matrix by setting to 0 all the negative entires.
   *@note Modiphy m_EDM itself
+  *
+  *@see make_hollow
   */
   for(unsigned int i=0; i<N; ++i){
     for(unsigned int j=i; j<N;++j){
       m_EDM(i,j)= m_EDM(i,j)<0 ? 0: m_EDM(i,j);
       m_EDM(j,i)= m_EDM(j,i)<0 ? 0: m_EDM(j,i);
-
     }
   }
 }
 
 
 
-
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 void EDMatrix<T,N,d> :: trim(){
+  /**
+  *Suppress the over rapresented rows and columns
+  *
+  *@note modphy m_Mask itself
+  **/
 
   //define some useful quantity
   unsigned int nEntires = 0;
@@ -448,7 +459,7 @@ void EDMatrix<T,N,d> :: trim(){
   }
 
   //define the threshold quantity
-  double Tresh = 2*(double)nEntires / (double)N;
+  T Tresh = 2*(T)nEntires / (T)N;
 
 
 
@@ -462,27 +473,23 @@ void EDMatrix<T,N,d> :: trim(){
   }
 }
 
-//
-//Eigne::Matrix methods
-//
 
-template<typename T,unsigned int N, unsigned int d>
+
+template<typename T, uInt N, uInt d>
 Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gc_matrix() const{
 
   /**
   *@returns the geometric centring matrix given by:
   *@f$ J = I - \frac{1}{N}11^{T}@f$
   */
-  return (Eigen::Matrix<T,N,N>::Identity()-(1./
-        (double)N)*Eigen::Matrix<T,N,N>::Ones());
+  return (Eigen::Matrix<T,N,N>::Identity()-
+            (1./(T)N)*Eigen::Matrix<T,N,N>::Ones());
 
 }
 
 
 
-
-
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gramm() const{
 
   /**
@@ -497,25 +504,17 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gramm() const{
   Eigen::Matrix<T,N,N> D;
   D = hadamard<T,int,N,N>((getEDM()+getNoise()), getMask());
   return -0.5*gc_matrix()*D*gc_matrix();
-
-
-
 }
 
 
 
-
-//
-//T method
-//
-
-
-
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 T EDMatrix<T,N,d>:: frobenius_norm(){
 
   /**
   * Perform the frombenius norm of the EDM with missing entires
+  *
+  *@returns frobenius norm
   */
   Eigen::Matrix<T,N,N> D = hadamard<T,int,N,N>(getEDM()+getNoise(),getMask());
   T norm = 0;
@@ -533,25 +532,20 @@ T EDMatrix<T,N,d>:: frobenius_norm(){
 //
 //
 //
-//NOW START THE IMPLEMENTATION OF THE EXTERNAL FUNCIONS
+//
 //
 //
 //
 //
 
 
-//
-//
-// INTERNAL FUNCTIONS
-//
 
 template<typename T,typename X, uInt Row, uInt Col>
 Eigen::Matrix<T,Row,Col> hadamard(const Eigen::Matrix<T,Row,Col>& t_A,
-                                  const Eigen::Matrix<X,Row,Col>& t_B)
-{
-/**
-@return the hadamart product between matrix t_A and matrix t_B.
-**/
+                                  const Eigen::Matrix<X,Row,Col>& t_B){
+  /**
+  *@return the hadamart product between matrix t_A and matrix t_B.
+  **/
   Eigen::Matrix<T,Row,Col> Result;
   for(unsigned int i=0; i<Row; ++i){
     for(unsigned int j=0; j<Col;++j){
@@ -559,14 +553,16 @@ Eigen::Matrix<T,Row,Col> hadamard(const Eigen::Matrix<T,Row,Col>& t_A,
     }
   }
   return Result;
-
 }
+
 
 
 template<typename T, uInt Row, uInt Col>
 T frobenius_norm(const Eigen::Matrix<T,Row,Col>& t_M){
 /**
-Compute the frobenius norm of the matrix t_M
+*Compute the frobenius norm of the matrix t_M
+*
+*@return frobenius norm of t_M
 **/
   T norm = 0;
   for(unsigned int i=0; i<Row; ++i){
@@ -578,7 +574,8 @@ Compute the frobenius norm of the matrix t_M
 }
 
 
-template<typename T,unsigned int N, unsigned int d>
+
+template<typename T, uInt N, uInt d>
 EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r){
 
   /**
@@ -589,7 +586,7 @@ EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r){
   *the treshold
   *@params r -> Number of Eigenvalues to not kepp on zero
   *
-  @returs An eucliden distance matrix.
+  @returs EDMatrix
   **/
 
   Eigen::Matrix<T,N,N> EDM;
@@ -602,14 +599,13 @@ EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r){
                           cast_real<T,N,N>(es.eigenvectors());
 
   sort<T,N>(eigenval, eigenvec);
+
   set_zero<T,N>(eigenval, r);
   Eigen::Matrix<T,N,N> D =
           eigenvec*eigenval.asDiagonal()*eigenvec.transpose();
 
   EDMatrix<T,N,d> R(D);
   return R;
-
-
 }
 
 //
@@ -619,15 +615,16 @@ EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r){
 //
 //
 
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 Eigen::Matrix<T,d,N> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
 
   /**
-  * Perform the classical multi dimensional scaling
+  *Perform the classical multi dimensional scaling
   *
   *@params t_EDM Euclidean distace matrix from which reconstruct the point set
   *
-  @returns Nxd matrix which is the reconstructed point set up to a translation and rotation.
+  *@returns Nxd matrix which is the reconstructed point set up to a translation
+  *and rotation.
   */
 
   Eigen::EigenSolver<Eigen::Matrix<T,N,N>> es(t_EDM.gramm());
@@ -656,12 +653,12 @@ Eigen::Matrix<T,d,N> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
 //
 //
 
-template<typename T, unsigned int N, unsigned int d>
+template<typename T, uInt N, uInt d>
 EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM, T MAX_TOL,
                                 unsigned int MAX_ITER){
 
   /**
-  *Perform the matrix completion and the noise reduction by using the
+  *Perform matrix completion and noise reduction by using the
   *rank proprieties of EDM.
   *@params t_EDM -> EDM to Complete
   *@params MAX_TOL -> treshold to establish the convergence of the
@@ -670,15 +667,18 @@ EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM, T MAX_TOL,
   *algroitm, even if it doesn't converges.
   **/
   //quantity to use inside the cicle
+
   uInt count = 0;
-  T conv;
+  T conv = 0.;
   EDMatrix<T,N,d> D_old;
+  EDMatrix<T,N,d> EDM;
   Eigen::Matrix<T,N,N> D;
+  Eigen::Matrix<T,N,N> A;
+
   D = hadamard<T,int,N,N>(t_EDM.getEDM()+t_EDM.getNoise(), t_EDM.getMask());
-  //Compute the mean
   T mu = D.mean();
-  //Create the matrix to work with
-  Eigen::Matrix<T,N,N> A ;
+
+
   for(uInt R = 0; R< N ; R++){
     for(uInt C = R; C<N; C++ ){
       A(R,C) = t_EDM.getMask()(R,C) == 1 ? D(R,C) : mu;
@@ -686,30 +686,27 @@ EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM, T MAX_TOL,
     }
   }
 
-  EDMatrix<T,N,d> EDM(A);
-  //start the cicle
   do{
-    //Store the old value
     D_old = EDM;
-    //Upgrade the value: EVTreshold
-    EDM = EVTreshold(EDM,d+2);
-    //Enforce known entires
+
+    EDM = EVTreshold<T,N,d>(EDM,d+2);
+
     for(uInt i = 0; i<N; i++){
       for(uInt j=i; j<N; j++){
         EDM(i,j) = t_EDM.getMask()(i,j) == 1 ? D(i,j) : EDM(i,j) ;
-
         EDM(j,i) = EDM(i,j);
       }
     }
-    //make hollow
+
     EDM.make_hollow();
-    //make positive
     EDM.make_positive();
 
-    //Check convergence
     conv = (D_old-EDM).frobenius_norm();
     count++;
   }while(count < MAX_ITER && conv > MAX_TOL);
+
+  if(count < MAX_ITER){std::clog<<"Converge after"<<count<<"iter"<<std::endl;}
+  else {std::clog<<"no convergenge"<<std::endl; }
 
   return EDM;
 }
