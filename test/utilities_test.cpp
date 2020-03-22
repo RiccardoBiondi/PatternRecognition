@@ -1,3 +1,6 @@
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
+
 
 #include "C:\Users\Riccardo\github\PatternRecognition\src\miscellanea.hpp"
 
@@ -13,13 +16,11 @@
  * Catch v2.11.0
  */
 
-#define CATCH_CONFIG_MAIN
-#include "catch.hpp"
 
 
 
 
-TEMPLATE_TEST_CASE("testing sorting algorithms","[one][template]", float){
+TEMPLATE_TEST_CASE("testing sorting algorithms","[one][template]", float,double){
 
 
   // decalration of the vector and matrix to sort
@@ -54,7 +55,8 @@ TEMPLATE_TEST_CASE("testing sorting algorithms","[one][template]", float){
       REQUIRE(eigenval == sort_val_result);
       REQUIRE(eigenvec == sort_vec_result);
 
-
+      REQUIRE(typeid(EuclideanNorm<TestType,4,4>(eigenvec)).name() ==
+      typeid(TestType).name());
 
 
 
@@ -65,7 +67,7 @@ TEMPLATE_TEST_CASE("testing sorting algorithms","[one][template]", float){
 
 
 
-TEMPLATE_TEST_CASE("test set zero and sqrt function", "[two][template]", double){
+TEMPLATE_TEST_CASE("test set zero and sqrt function", "[two][template]",float, double){
 
 
   //initial definitions
@@ -91,7 +93,7 @@ TEMPLATE_TEST_CASE("test set zero and sqrt function", "[two][template]", double)
 
 
 
-TEMPLATE_TEST_CASE("casting test", "[three][template]", double){
+TEMPLATE_TEST_CASE("casting test", "[three][template]", float, double){
 
   Eigen::Matrix<std::complex<TestType>, 4,1> vec;
   vec << 1,2,3,4;

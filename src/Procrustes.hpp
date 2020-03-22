@@ -28,9 +28,9 @@ class Procrustes{
   *
   * Procrustes use Eigen 3.3.7 to work.
   * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  * @tparam T type of entries of the PointSet, can be double or float.
-  * @tparam unsigned int N, number of points in the two set of points
-  * @tparam unsigned int d, dimension of the euclidean space in
+  * @tparam T Type of entries of the PointSet, can be double or float.
+  * @tparam N Number of points in the two set of points
+  * @tparam d Dimension of the euclidean space in
   *
   *
   */
@@ -88,9 +88,9 @@ Procrustes<T,N,d>:: Procrustes (const Eigen::Matrix<T,d,N>& t_Reference,
             m_Scale(1.){
               /**
               Parametric Constructor
-              @params t_Reference  dxN matrix which contains the reference
+              @param t_Reference  dxN matrix which contains the reference
               *set of points
-              @params t_COnfiguration dxN matrix which contains the set of
+              @param t_Configuration dxN matrix which contains the set of
               *points to aligna to t_Reference
               **/
             }
@@ -131,10 +131,11 @@ Eigen::Matrix<T,d,N> Procrustes<T,N,d>:: getConfiguration() const{
 template<typename T, unsigned int N, unsigned int d>
 Eigen::Matrix<T,d,N> Procrustes<T,N,d>:: getNewConfiguration() const{
   /**
-  *If procustes analysis has been performed
-  *@returns the aligned set of points
-  * If procrustes analysis hasn't been performed yet
-  *@returns the original configuration
+  *
+  *@returns the aligned set of points, If procustes analysis has been performed
+  *
+  *@returns the original configuration, If procrustes analysis hasn't been
+  *performed yet
   **/
   return m_NewConfiguration;
 }
@@ -167,7 +168,7 @@ template<typename T, unsigned int N, unsigned int d>
 void Procrustes<T,N,d>:: Centering(){
   /**
   *Center the two set of points by using the centering matrix
-  * C = I - 1/N11
+  * \f$ C=I - -\frac{1}{N}11^T\f $
   *@note Modiphy m_Reference and m_Configuration themself
   **/
   Eigen::Matrix<T,N,N> C = (Eigen::Matrix<T,N,N>::Identity()

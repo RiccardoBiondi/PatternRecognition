@@ -5,27 +5,29 @@
 #include <string>
 #include "EDMatrix.hpp"
 
-typedef unsigned int uInt
+typedef unsigned int uInt;
 
 /**
 *
-*This file contains the definition a the template class PointSet, that allow to  generates set of points in an euclidean space
+*This file contains the definition a the template class PointSet, that allow
+*to  generates set of points in an euclidean space
 **/
 template<typename T, uInt N, uInt d>
 class PointSet{
 
   /**
-  *\class PointSet , allow the generation of set of Points in the *euclidean space
+  *\class PointSet  allow the generation of set of Points in the *euclidean space
   *
-  *@tparam T type of entries of the EDM, can be double, float.
-  *@tparam N, number of points of the PointSet
-  *@tparam d, dimension of the euclidean space
+  *@tparam N is the scalar type i.e. the type of coefficient. It can be
+  *float or double.
+  *@tparam N number of points of the PointSet
+  *@tparam d dimension of the euclidean space
   **/
 
   private:
 
-    Eigen::Matrix<T, d, N> m_point_set;
-    EDMatrix<T,N,d> m_EDM;
+    Eigen::Matrix<N, d, N> m_point_set;
+    EDMatrix<Scalar,N,d> m_EDM;
 
     std::random_device rd;//seed
 
@@ -54,6 +56,8 @@ T PointSet<T,N,d>::EuclideanDistance(const Eigen::Matrix<T,d,1>& t_PA,
                                      const Eigen::Matrix<T,d,1>& t_PB){
   /**
   *Private function.
+  *@param t_PA first point
+  *@param t_PB second point
   *@returns the distance square between the poin PA and PB
   **/
   T distance = 0.;
@@ -84,7 +88,7 @@ PointSet<T,N,d>:: PointSet(T h) {
   *Generates a set of points uniformily distributed in and hypercube of
   *side h and compute the correspondig Euclidean Distance Matrix
   *
-  *@params h, side of the hypercube
+  *@param h side of the hypercube
   *
   **/
 
@@ -122,7 +126,7 @@ PointSet<T,N,d> ::PointSet(const PointSet& o_PointSet):
 
 
 
-template<typename T, uInt N, uIntt d>
+template<typename T, uInt N, uInt d>
 Eigen::Matrix<T,d,N> PointSet<T,N,d>:: getPointSet() const {
 
   /**
@@ -179,7 +183,7 @@ void PointSet<T,N,d>:: AddNoise(T sdev){
   /**
   *Add a Gaussian Noise matrix to the EDM
   *
-  *@params sdev, standard deviation of Noise
+  *@param sdev standard deviation of Noise
   *
   *@see AddMissEntires
   **/

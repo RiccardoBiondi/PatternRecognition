@@ -11,10 +11,9 @@
 typedef unsigned int uInt;
 
 /**
- *  EDMatrix v2.0.0
- *  Starting Generation: 2019-12-21
- *  ----------------------------------------------------------
- *  This file contains the implementations of the template class EDMatrix and some external methods usefull to work with Euclidean Distance Matrix
+ *  EDMatrix
+ *  This file contains the implementations of the template class EDMatrix and
+ *some external methods usefull to work with Euclidean Distance Matrix
  *
  * Requirments:
  *   Eigen 3.3.7
@@ -29,12 +28,11 @@ class EDMatrix{
 /**
 * \class EDMatrix, provides methods to build and works with Euclidean
 *Distance Matrix(EDM)
-* EDMatrix use Eigen 3.3.7 to work.
-* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
+*------------------------------------------------------------------------------
 * @tparam T type of entries of the EDM, can be double, float.
-* @tparam unsigned int N, number of points from which EDM is
+* @tparam N number of points from which EDM is
 *created. Is the dimension of the NxN EDM.
-* @tparam unsigned int dimension of the euclidean space in
+* @tparam d dimension of the euclidean space in
 *which points
 *live
 */
@@ -57,12 +55,12 @@ class EDMatrix{
             m_EDM(t_EDM),m_Mask(t_Mask),m_Noise(t_Noise){
               /**
               *Parametric Constructor
-              *@params t_EDM -> NxN matrix which contains the quare of
+              *@param t_EDM NxN matrix which contains the quare of
               *euclidean distances between the point of a given pointset
-              *@params t_Mask -> NxN int matrix which contains only 0
+              *@param t_Mask NxN int matrix which contains only 0
               *and 1, 0 corresponds to an miss entire, 1 to a known
               *entries. As default is set as One matrix.
-              *@params t_Noise -> NxN matrix which contains the error on
+              *@param t_Noise  NxN matrix which contains the error on
               *the estimates square distances. As default is set as a
               *matrix with only 0 entires.
               *
@@ -189,8 +187,8 @@ EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator + (const EDMatrix<T,N,d>& t_EDM)
 {
   /**
   *Perform the sum of two euclidean distance matrix
-  *@perams this-> First Adder
-  *@params t_EDM -> Second Adder
+  *@peram this First Adder
+  *@param t_EDM Second Adder
   *@return the sum of two euclidean distance matrix
   *
   **/
@@ -202,8 +200,8 @@ template<typename T, uInt N, uInt d>
 EDMatrix<T,N,d> EDMatrix<T,N,d>:: operator - (const EDMatrix<T,N,d>& t_EDM){
   /**
   *Perform the sum of two euclidean distance matrix
-  *@perams this-> First Adder
-  *@params t_EDM -> Second Adder
+  *@peram this First Adder
+  *@param t_EDM  Second Adder
   *@return the sum of two euclidean distance matrix
   *
   **/
@@ -442,7 +440,7 @@ void EDMatrix<T,N,d> :: trim(){
   /**
   *Suppress the over rapresented rows and columns
   *
-  *@note modphy m_Mask itself
+  *@note modiphy m_Mask itself
   **/
 
   //define some useful quantity
@@ -480,7 +478,7 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gc_matrix() const{
 
   /**
   *@returns the geometric centring matrix given by:
-  *@f$ J = I - \frac{1}{N}11^{T}@f$
+  *\f$ J = I - \frac{1}{N}11^{T}\f$
   */
   return (Eigen::Matrix<T,N,N>::Identity()-
             (1./(T)N)*Eigen::Matrix<T,N,N>::Ones());
@@ -494,7 +492,7 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gramm() const{
 
   /**
   * @returns the Gramm matrix G, given by:
-  *@f$G  = XX^{T} = -0.5JDJ@f$
+  *\f$G  = XX^{T} = -0.5JDJ\f$
   *Where:
   * X is the point set (dxN matrix)
   * J is the geometric centring matrix @see gc_matrix
@@ -582,9 +580,9 @@ EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r){
   *This function is usefull inside the Rank Complete Edm. Perform
   *and Eigenvalues decomposition and keeps only the r greater
   *eigenvalues and the corresponding eigenvalues.
-  *@params t_EDM -> Euclidian Distance matrix in which we perform
+  *@param t_EDM Euclidian Distance matrix in which we perform
   *the treshold
-  *@params r -> Number of Eigenvalues to not kepp on zero
+  *@params r  Number of Eigenvalues to not kepp on zero
   *
   @returs EDMatrix
   **/
@@ -621,7 +619,7 @@ Eigen::Matrix<T,d,N> ClassicalMDS(const EDMatrix<T,N,d>& t_EDM){
   /**
   *Perform the classical multi dimensional scaling
   *
-  *@params t_EDM Euclidean distace matrix from which reconstruct the point set
+  *@param t_EDM Euclidean distace matrix from which reconstruct the point set
   *
   *@returns Nxd matrix which is the reconstructed point set up to a translation
   *and rotation.
@@ -660,10 +658,10 @@ EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM, T MAX_TOL,
   /**
   *Perform matrix completion and noise reduction by using the
   *rank proprieties of EDM.
-  *@params t_EDM -> EDM to Complete
-  *@params MAX_TOL -> treshold to establish the convergence of the
+  *@param t_EDM  EDM to Complete
+  *@param MAX_TOL treshold to establish the convergence of the
   *logoritm.
-  *@params MAX_ITER -> max number of iter to do before stop the
+  *@param MAX_ITER max number of iter to do before stop the
   *algroitm, even if it doesn't converges.
   **/
   //quantity to use inside the cicle
