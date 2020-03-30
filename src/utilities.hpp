@@ -42,17 +42,30 @@ template<typename T, uInt N>
 void eigen_sqrt (Eigen::Matrix<T,N,1> & t_eigenval);
 
 
-template<typename T, uInt R, uInt C>
-Eigen::Matrix<T,R,C> cast_real (const Eigen::Matrix<std::complex<T>, R,C>
-                                                            & t_M);
+template<typename T, uInt Row, uInt Col>
+Eigen::Matrix<T,Row,Col> cast_real (
+                          const Eigen::Matrix<std::complex<T>, Row,Col>& t_M);
 
 
-template<typename T, uInt R, uInt C>
-T EuclideanNorm (const Eigen::Matrix<T,R,C>& t_M);
+
+template<typename T,typename X, uInt Row, uInt Col>
+Eigen::Matrix<T,Row,Col> hadamard(const Eigen::Matrix<T,Row,Col>& t_A,
+                                  const Eigen::Matrix<X,Row,Col>& t_B);
 
 
-template<typename T, uInt R, uInt C>
-void write (const Eigen::Matrix<T,R,C>& t_M,std::string filename);
+
+template<typename T, uInt Row, uInt Col>
+T EuclideanNorm (const Eigen::Matrix<T,Row,Col>& t_M);
+
+
+
+template<typename T, uInt Row, uInt Col>
+T frobenius_norm (const Eigen::Matrix<T,Row,Col>& t_M);
+
+
+
+template<typename T, uInt Row, uInt Col>
+void write (const Eigen::Matrix<T,Row,Col>& t_M,std::string filename);
 
 
 
@@ -155,8 +168,8 @@ void eigen_sqrt (Eigen::Matrix<T,N,1> & t_eigenval){
 
 
 
-template<typename T, uInt R, uInt C>
-Eigen::Matrix<T,R,C> cast_real (const Eigen::Matrix<std::complex<T>, R,C>&
+template<typename T, uInt Row, uInt Col>
+Eigen::Matrix<T,Row,Col> cast_real (const Eigen::Matrix<std::complex<T>, Row,Col>&
                                                             t_M){
   /**
   * Converts a complex matrix to a real one
@@ -165,9 +178,9 @@ Eigen::Matrix<T,R,C> cast_real (const Eigen::Matrix<std::complex<T>, R,C>&
   *
   *@return Real matrix
   */
-  Eigen::Matrix<T,R,C> Real;
-  for(unsigned int i=0; i<R; ++i){
-    for(unsigned int j=0; j<C;++j){
+  Eigen::Matrix<T,Row,Col> Real;
+  for(unsigned int i=0; i<Row; ++i){
+    for(unsigned int j=0; j<Col;++j){
       Real(i,j) = t_M(i,j).real();
     }
   }
@@ -176,8 +189,26 @@ Eigen::Matrix<T,R,C> cast_real (const Eigen::Matrix<std::complex<T>, R,C>&
 
 
 
-  template<typename T, uInt R, uInt C>
-  T EuclideanNorm (const Eigen::Matrix<T,R,C>& t_M){
+
+template<typename T,typename X, uInt Row, uInt Col>
+Eigen::Matrix<T,Row,Col> hadamard(const Eigen::Matrix<T,Row,Col>& t_A,
+                                  const Eigen::Matrix<X,Row,Col>& t_B){
+  /**
+  *@return the hadamart product between matrix t_A and matrix t_B.
+  **/
+  Eigen::Matrix<T,Row,Col> Result;
+  for(unsigned int i=0; i<Row; ++i){
+    for(unsigned int j=0; j<Col;++j){
+      Result(i,j) = t_A(i,j)*t_B(i,j);
+    }
+  }
+  return Result;
+}
+
+
+
+template<typename T, uInt Row, uInt Col>
+T EuclideanNorm (const Eigen::Matrix<T,Row,Col>& t_M){
     /**
     *Compute the eucliden norm of the matrix
     *
@@ -193,22 +224,56 @@ Eigen::Matrix<T,R,C> cast_real (const Eigen::Matrix<std::complex<T>, R,C>&
   }
 
 
-  template<typename T, uInt R, uInt C>
-  void write (const Eigen::Matrix<T,R,C>& t_M,std::string filename){
 
-
-    std::ofstream out;
-    out.open(filename);
-    if(!out){
-      std::cerr<<filename<<" could not be opened"<<std::endl;
-
+template<typename T, uInt Row, uInt Col>
+T frobenius_norm(const Eigen::Matrix<T,Row,Col>& t_M){
+  /**
+  *Compute the frobenius norm of the matrix t_M
+  *
+  *@tparam T type of matrix entires, can be double or float
+  *@tparam Row number of rows of the matrix
+  *@tparam Col number of columns of the matrix
+  *
+  *@param t_M matrix from which compute the frobenius norm
+  *
+  *@return frobenius norm of t_M
+  **/
+  T norm = 0;
+  for(unsigned int i=0; i<Row; ++i){
+    for(unsigned int j=0; j<Col; ++j){
+      norm += std::pow(t_M(i,j),2);
     }
-
-    for(unsigned int i=0; i<R; i++)
-      for(unsigned int j=0; j<C; j++){
-        out<<t_M(i,j)<<'\t';
-      }
-      out<<std::endl;
   }
+  return std::sqrt(norm);
+}
+
+
+
+
+template<typename T, uInt Row, uInt Col>
+void write (const Eigen::Matrix<T,Row,Col>& t_M,std::string filename){
+
+  /**
+  *Write matrix in filename
+  *
+  *@tparam T type of entries of matrix, can be float or double
+  *@tparam Row number of rows of the matrix
+  *@tparam Col number of columns of the matrix
+  *
+  *@param t_M matrix to Write
+  *@param filename name of the file
+  **/
+  std::ofstream out;
+  out.open(filename);
+  if(!out){
+    std::cerr<<filename<<" could not be opened"<<std::endl;
+  }
+  for(unsigned int i=0; i<Row; i++){
+    for(unsigned int j=0; j<Col; j++){
+      out<<t_M(i,j)<<'\t';
+    }
+    out<<std::endl;
+  }
+}
 
 #endif

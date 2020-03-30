@@ -5,7 +5,7 @@
 #include <cmath>
 #include <iostream>
 
-#include "miscellanea.hpp"
+#include "utilities.hpp"
 
 
 typedef unsigned int uInt;
@@ -101,17 +101,10 @@ class EDMatrix{
     Eigen::Matrix<T,N,N> gc_matrix() const;
     Eigen::Matrix<T,N,N> gramm() const;
 
-    T frobenius_norm();
 
 };
 
-//Some usefull tools to work with matrices
-template<typename T,typename X, uInt Row, uInt Col>
-Eigen::Matrix<T,Row,Col> hadamard(const Eigen::Matrix<T,Row,Col>& t_A,
-                                  const Eigen::Matrix<X,Row,Col>& t_B);
 
-template<typename T, uInt Row, uInt Col>
-T frobenius_norm (const Eigen::Matrix<T,Row,Col>& t_M);
 
 //Declaratin of externam methods
 template<typename T, uInt N, uInt d>
@@ -503,29 +496,6 @@ Eigen::Matrix<T,N,N> EDMatrix<T,N,d>:: gramm() const{
   D = hadamard<T,int,N,N>((getEDM()+getNoise()), getMask());
   return -0.5*gc_matrix()*D*gc_matrix();
 }
-
-
-
-template<typename T, uInt N, uInt d>
-T EDMatrix<T,N,d>:: frobenius_norm(){
-
-  /**
-  * Perform the frombenius norm of the EDM with missing entires
-  *
-  *@returns frobenius norm
-  */
-  Eigen::Matrix<T,N,N> D = hadamard<T,int,N,N>(getEDM()+getNoise(),getMask());
-  T norm = 0;
-  for(unsigned int i=0; i<N; ++i){
-    for(unsigned int j=0; j<N; ++j){
-      norm += std::pow(D(i,j),2);
-    }
-  }
-  return std::sqrt(norm);
-}
-
-
-
 //
 //
 //
@@ -535,44 +505,6 @@ T EDMatrix<T,N,d>:: frobenius_norm(){
 //
 //
 //
-
-
-
-template<typename T,typename X, uInt Row, uInt Col>
-Eigen::Matrix<T,Row,Col> hadamard(const Eigen::Matrix<T,Row,Col>& t_A,
-                                  const Eigen::Matrix<X,Row,Col>& t_B){
-  /**
-  *@return the hadamart product between matrix t_A and matrix t_B.
-  **/
-  Eigen::Matrix<T,Row,Col> Result;
-  for(unsigned int i=0; i<Row; ++i){
-    for(unsigned int j=0; j<Col;++j){
-      Result(i,j) = t_A(i,j)*t_B(i,j);
-    }
-  }
-  return Result;
-}
-
-
-
-template<typename T, uInt Row, uInt Col>
-T frobenius_norm(const Eigen::Matrix<T,Row,Col>& t_M){
-/**
-*Compute the frobenius norm of the matrix t_M
-*
-*@return frobenius norm of t_M
-**/
-  T norm = 0;
-  for(unsigned int i=0; i<Row; ++i){
-    for(unsigned int j=0; j<Col; ++j){
-      norm += std::pow(t_M(i,j),2);
-    }
-  }
-  return std::sqrt(norm);
-}
-
-
-
 template<typename T, uInt N, uInt d>
 EDMatrix<T,N,d> EVTreshold(EDMatrix<T,N,d> t_EDM, unsigned int r){
 
@@ -699,7 +631,7 @@ EDMatrix<T,N,d> RankCompleteEDM(const EDMatrix<T,N,d>& t_EDM, T MAX_TOL,
     EDM.make_hollow();
     EDM.make_positive();
 
-    conv = (D_old-EDM).frobenius_norm();
+    conv = frobenius_norm<T,N,N>((D_old-EDM).getEDM());
     count++;
   }while(count < MAX_ITER && conv > MAX_TOL);
 
