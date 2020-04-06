@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.16"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: PointSet.hpp Source File</title>
+<title>EDM: PointSet.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">EDM
    </div>
   </td>
  </tr>
@@ -79,8 +79,8 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    Eigen::Matrix&lt;N, d, N&gt; m_point_set;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="class_e_d_matrix.html">EDMatrix&lt;Scalar,N,d&gt;</a> m_EDM;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    Eigen::Matrix&lt;T, d, N&gt; m_point_set;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="class_e_d_matrix.html">EDMatrix&lt;T,N,d&gt;</a> m_EDM;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    std::random_device rd;<span class="comment">//seed</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
@@ -97,7 +97,7 @@ $(function() {
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="class_e_d_matrix.html">EDMatrix&lt;T,N,d&gt;</a> <a class="code" href="class_point_set.html#ab00963ee0d36cbcf186c6b5d7f1e7733">getEDM</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_point_set.html#a1d745f5f8a1cf92a8a88edbb964e50e2">AddNoise</a>(T sdev);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_point_set.html#a4a4a90a8b0e08007ca1da418b71ad52e">AddMissEntires</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_point_set.html#a86f136c3de56e7d66793ddbd328340b8">AddMissEntries</a>();</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;};</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">//</span></div>
@@ -176,7 +176,7 @@ $(function() {
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, uInt N, uInt d&gt;</div>
-<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="class_point_set.html#a4a4a90a8b0e08007ca1da418b71ad52e">  158</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_point_set.html#a4a4a90a8b0e08007ca1da418b71ad52e">PointSet&lt;T,N,d&gt;:: AddMissEntires</a>(){</div>
+<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="class_point_set.html#a86f136c3de56e7d66793ddbd328340b8">  158</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_point_set.html#a86f136c3de56e7d66793ddbd328340b8">PointSet&lt;T,N,d&gt;:: AddMissEntries</a>(){</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  std::mt19937 gen(rd());</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  std::uniform_int_distribution&lt;int&gt; dis(0,1);</div>
@@ -213,8 +213,8 @@ $(function() {
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="a_point_set_8hpp_html_a87d141052bcd5ec8a80812a565c70369"><div class="ttname"><a href="_point_set_8hpp.html#a87d141052bcd5ec8a80812a565c70369">uInt</a></div><div class="ttdeci">unsigned int uInt</div><div class="ttdef"><b>Definition:</b> PointSet.hpp:8</div></div>
-<div class="ttc" id="aclass_point_set_html_a4a4a90a8b0e08007ca1da418b71ad52e"><div class="ttname"><a href="class_point_set.html#a4a4a90a8b0e08007ca1da418b71ad52e">PointSet::AddMissEntires</a></div><div class="ttdeci">void AddMissEntires()</div><div class="ttdef"><b>Definition:</b> PointSet.hpp:158</div></div>
-<div class="ttc" id="aclass_e_d_matrix_html"><div class="ttname"><a href="class_e_d_matrix.html">EDMatrix&lt; Scalar, N, d &gt;</a></div></div>
+<div class="ttc" id="aclass_point_set_html_a86f136c3de56e7d66793ddbd328340b8"><div class="ttname"><a href="class_point_set.html#a86f136c3de56e7d66793ddbd328340b8">PointSet::AddMissEntries</a></div><div class="ttdeci">void AddMissEntries()</div><div class="ttdef"><b>Definition:</b> PointSet.hpp:158</div></div>
+<div class="ttc" id="aclass_e_d_matrix_html"><div class="ttname"><a href="class_e_d_matrix.html">EDMatrix</a></div><div class="ttdef"><b>Definition:</b> EDMatrix.hpp:26</div></div>
 <div class="ttc" id="a_e_d_matrix_8hpp_html"><div class="ttname"><a href="_e_d_matrix_8hpp.html">EDMatrix.hpp</a></div></div>
 <div class="ttc" id="aclass_point_set_html"><div class="ttname"><a href="class_point_set.html">PointSet</a></div><div class="ttdef"><b>Definition:</b> PointSet.hpp:16</div></div>
 <div class="ttc" id="aclass_point_set_html_ab00963ee0d36cbcf186c6b5d7f1e7733"><div class="ttname"><a href="class_point_set.html#ab00963ee0d36cbcf186c6b5d7f1e7733">PointSet::getEDM</a></div><div class="ttdeci">EDMatrix&lt; T, N, d &gt; getEDM() const</div><div class="ttdef"><b>Definition:</b> PointSet.hpp:145</div></div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.16"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: EDMatrix.hpp File Reference</title>
+<title>EDM: EDMatrix.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">EDM
    </div>
   </td>
  </tr>
@@ -62,7 +62,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -72,12 +72,12 @@ $(function() {
 <div class="textblock"><code>#include &lt;eigen\Eigen\Eigenvalues&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="miscellanea_8hpp_source.html">miscellanea.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="utilities_8hpp_source.html">utilities.hpp</a>&quot;</code><br />
 </div>
 <p><a href="_e_d_matrix_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
+Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_d_matrix.html">EDMatrix&lt; T, N, d &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -88,12 +88,6 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3beb9a9b4890cb63dce7061422d5cabe"><td class="memTemplParams" colspan="2">template&lt;typename T , typename X , uInt Row, uInt Col&gt; </td></tr>
-<tr class="memitem:a3beb9a9b4890cb63dce7061422d5cabe"><td class="memTemplItemLeft" align="right" valign="top">Eigen::Matrix&lt; T, Row, Col &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_e_d_matrix_8hpp.html#a3beb9a9b4890cb63dce7061422d5cabe">hadamard</a> (const Eigen::Matrix&lt; T, Row, Col &gt; &amp;t_A, const Eigen::Matrix&lt; X, Row, Col &gt; &amp;t_B)</td></tr>
-<tr class="separator:a3beb9a9b4890cb63dce7061422d5cabe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d2e8a58826ab6a68c8555c5d961be77"><td class="memTemplParams" colspan="2">template&lt;typename T , uInt Row, uInt Col&gt; </td></tr>
-<tr class="memitem:a6d2e8a58826ab6a68c8555c5d961be77"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_e_d_matrix_8hpp.html#a6d2e8a58826ab6a68c8555c5d961be77">frobenius_norm</a> (const Eigen::Matrix&lt; T, Row, Col &gt; &amp;t_M)</td></tr>
-<tr class="separator:a6d2e8a58826ab6a68c8555c5d961be77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ead0bc343f5acabbef9720d77358cc4"><td class="memTemplParams" colspan="2">template&lt;typename T , uInt N, uInt d&gt; </td></tr>
 <tr class="memitem:a9ead0bc343f5acabbef9720d77358cc4"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_e_d_matrix.html">EDMatrix</a>&lt; T, N, d &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_e_d_matrix_8hpp.html#a9ead0bc343f5acabbef9720d77358cc4">EVTreshold</a> (<a class="el" href="class_e_d_matrix.html">EDMatrix</a>&lt; T, N, d &gt; t_EDM, unsigned int r)</td></tr>
 <tr class="separator:a9ead0bc343f5acabbef9720d77358cc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -106,9 +100,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ae69011bec6ee57f62afdaed9445b3602"><td class="memTemplParams" colspan="2">template&lt;typename T , uInt N, uInt d&gt; </td></tr>
 <tr class="memitem:ae69011bec6ee57f62afdaed9445b3602"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_e_d_matrix.html">EDMatrix</a>&lt; T, N, d &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_e_d_matrix_8hpp.html#ae69011bec6ee57f62afdaed9445b3602">RankCompleteEDM</a> (const <a class="el" href="class_e_d_matrix.html">EDMatrix</a>&lt; T, N, d &gt; &amp;t_EDM, T MAX_TOL, unsigned int MAX_ITER)</td></tr>
 <tr class="separator:ae69011bec6ee57f62afdaed9445b3602"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab18343e1f63b66d4903d8e39822d6453"><td class="memTemplParams" colspan="2">template&lt;typename T , uInt N, uInt d&gt; </td></tr>
-<tr class="memitem:ab18343e1f63b66d4903d8e39822d6453"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_e_d_matrix.html">EDMatrix</a>&lt; T, N, d &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_e_d_matrix_8hpp.html#ab18343e1f63b66d4903d8e39822d6453">OptSpace</a> (const <a class="el" href="class_e_d_matrix.html">EDMatrix</a>&lt; T, N, d &gt; &amp;t_EDM)</td></tr>
-<tr class="separator:ab18343e1f63b66d4903d8e39822d6453"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5781d49a4f2af97f46791d2f02f92437"><td class="memTemplParams" colspan="2">template&lt;typename T , uInt N, uInt d&gt; </td></tr>
+<tr class="memitem:a5781d49a4f2af97f46791d2f02f92437"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_e_d_matrix.html">EDMatrix</a>&lt; T, N, d &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_e_d_matrix_8hpp.html#a5781d49a4f2af97f46791d2f02f92437">OptSpace</a> (const <a class="el" href="class_e_d_matrix.html">EDMatrix</a>&lt; T, N, d &gt; &amp;t_EDM)</td></tr>
+<tr class="separator:a5781d49a4f2af97f46791d2f02f92437"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="a87d141052bcd5ec8a80812a565c70369"></a>
@@ -211,61 +205,8 @@ template&lt;typename T , uInt N, uInt d&gt; </div>
 
 </div>
 </div>
-<a id="a6d2e8a58826ab6a68c8555c5d961be77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d2e8a58826ab6a68c8555c5d961be77">&#9670;&nbsp;</a></span>frobenius_norm()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T , uInt Row, uInt Col&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">T frobenius_norm </td>
-          <td>(</td>
-          <td class="paramtype">const Eigen::Matrix&lt; T, Row, Col &gt; &amp;&#160;</td>
-          <td class="paramname"><em>t_M</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Compute the frobenius norm of the matrix t_M</p>
-<dl class="section return"><dt>Returns</dt><dd>frobenius norm of t_M</dd></dl>
-
-</div>
-</div>
-<a id="a3beb9a9b4890cb63dce7061422d5cabe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3beb9a9b4890cb63dce7061422d5cabe">&#9670;&nbsp;</a></span>hadamard()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T , typename X , uInt Row, uInt Col&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">Eigen::Matrix&lt; T, Row, Col &gt; hadamard </td>
-          <td>(</td>
-          <td class="paramtype">const Eigen::Matrix&lt; T, Row, Col &gt; &amp;&#160;</td>
-          <td class="paramname"><em>t_A</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Eigen::Matrix&lt; X, Row, Col &gt; &amp;&#160;</td>
-          <td class="paramname"><em>t_B</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>the hadamart product between matrix t_A and matrix t_B.</dd></dl>
-
-</div>
-</div>
-<a id="ab18343e1f63b66d4903d8e39822d6453"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab18343e1f63b66d4903d8e39822d6453">&#9670;&nbsp;</a></span>OptSpace()</h2>
+<a id="a5781d49a4f2af97f46791d2f02f92437"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5781d49a4f2af97f46791d2f02f92437">&#9670;&nbsp;</a></span>OptSpace()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -273,7 +214,7 @@ template&lt;typename T , typename X , uInt Row, uInt Col&gt; </div>
 template&lt;typename T , uInt N, uInt d&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_e_d_matrix.html">EDMatrix</a>&lt;T,N,d&gt; OptSpace </td>
+          <td class="memname"><a class="el" href="class_e_d_matrix.html">EDMatrix</a>&lt; T, N, d &gt; OptSpace </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_e_d_matrix.html">EDMatrix</a>&lt; T, N, d &gt; &amp;&#160;</td>
           <td class="paramname"><em>t_EDM</em></td><td>)</td>

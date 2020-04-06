@@ -1,0 +1,242 @@
+\hypertarget{utilities_8hpp}{}\doxysection{utilities.\+hpp File Reference}
+\label{utilities_8hpp}\index{utilities.hpp@{utilities.hpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$complex$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$eigen\textbackslash{}\+Eigen\textbackslash{}\+Eigenvalues$>$}\newline
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned int \mbox{\hyperlink{utilities_8hpp_a87d141052bcd5ec8a80812a565c70369}{u\+Int}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , u\+Int N$>$ }\\void \mbox{\hyperlink{utilities_8hpp_ac0032b87fde8ad093ac6097ac81d8890}{swap}} (Eigen\+::\+Matrix$<$ T, N, 1 $>$ \&t\+\_\+eigenval, Eigen\+::\+Matrix$<$ T, N, N $>$ \&t\+\_\+eigenvec, \mbox{\hyperlink{_e_d_matrix_8hpp_a87d141052bcd5ec8a80812a565c70369}{u\+Int}} i, \mbox{\hyperlink{_e_d_matrix_8hpp_a87d141052bcd5ec8a80812a565c70369}{u\+Int}} j)
+\item 
+{\footnotesize template$<$typename T , u\+Int N$>$ }\\void \mbox{\hyperlink{utilities_8hpp_ae9405ff0a09025162608ddc248480505}{sort}} (Eigen\+::\+Matrix$<$ T, N, 1 $>$ \&t\+\_\+eigenval, Eigen\+::\+Matrix$<$ T, N, N $>$ \&t\+\_\+eigenvec)
+\item 
+{\footnotesize template$<$typename T , u\+Int N$>$ }\\void \mbox{\hyperlink{utilities_8hpp_a586d4b155fba010e39f070a152711af7}{set\+\_\+zero}} (Eigen\+::\+Matrix$<$ T, N, 1 $>$ \&t\+\_\+eigenval, \mbox{\hyperlink{_e_d_matrix_8hpp_a87d141052bcd5ec8a80812a565c70369}{u\+Int}} n)
+\item 
+{\footnotesize template$<$typename T , u\+Int N$>$ }\\void \mbox{\hyperlink{utilities_8hpp_a852c9ce0240db7d70c5cb632927e99e6}{eigen\+\_\+sqrt}} (Eigen\+::\+Matrix$<$ T, N, 1 $>$ \&t\+\_\+eigenval)
+\item 
+{\footnotesize template$<$typename T , u\+Int Row, u\+Int Col$>$ }\\Eigen\+::\+Matrix$<$ T, Row, Col $>$ \mbox{\hyperlink{utilities_8hpp_a4fe899a3ce7bbdefea9b4856bf7e9fd5}{cast\+\_\+real}} (const Eigen\+::\+Matrix$<$ std\+::complex$<$ T $>$, Row, Col $>$ \&t\+\_\+M)
+\item 
+{\footnotesize template$<$typename T , typename X , u\+Int Row, u\+Int Col$>$ }\\Eigen\+::\+Matrix$<$ T, Row, Col $>$ \mbox{\hyperlink{utilities_8hpp_a3beb9a9b4890cb63dce7061422d5cabe}{hadamard}} (const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&t\+\_\+A, const Eigen\+::\+Matrix$<$ X, Row, Col $>$ \&t\+\_\+B)
+\item 
+{\footnotesize template$<$typename T , u\+Int Row, u\+Int Col$>$ }\\T \mbox{\hyperlink{utilities_8hpp_aae7650c3482646fc91ddc2927f1ae9dc}{Euclidean\+Norm}} (const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&t\+\_\+M)
+\item 
+{\footnotesize template$<$typename T , u\+Int Row, u\+Int Col$>$ }\\T \mbox{\hyperlink{utilities_8hpp_a6d2e8a58826ab6a68c8555c5d961be77}{frobenius\+\_\+norm}} (const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&t\+\_\+M)
+\item 
+{\footnotesize template$<$typename T , u\+Int Row, u\+Int Col$>$ }\\void \mbox{\hyperlink{utilities_8hpp_a5f02c9aa99a9b23562f9f8a3a63b42f9}{write}} (const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&t\+\_\+M, std\+::string filename)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{utilities_8hpp_a87d141052bcd5ec8a80812a565c70369}\label{utilities_8hpp_a87d141052bcd5ec8a80812a565c70369}} 
+\index{utilities.hpp@{utilities.hpp}!uInt@{uInt}}
+\index{uInt@{uInt}!utilities.hpp@{utilities.hpp}}
+\doxysubsubsection{\texorpdfstring{uInt}{uInt}}
+{\footnotesize\ttfamily typedef unsigned int \mbox{\hyperlink{_e_d_matrix_8hpp_a87d141052bcd5ec8a80812a565c70369}{u\+Int}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{utilities_8hpp_a4fe899a3ce7bbdefea9b4856bf7e9fd5}\label{utilities_8hpp_a4fe899a3ce7bbdefea9b4856bf7e9fd5}} 
+\index{utilities.hpp@{utilities.hpp}!cast\_real@{cast\_real}}
+\index{cast\_real@{cast\_real}!utilities.hpp@{utilities.hpp}}
+\doxysubsubsection{\texorpdfstring{cast\_real()}{cast\_real()}}
+{\footnotesize\ttfamily template$<$typename T , u\+Int Row, u\+Int Col$>$ \\
+Eigen\+::\+Matrix$<$ T, Row, Col $>$ cast\+\_\+real (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Matrix$<$ std\+::complex$<$ T $>$, Row, Col $>$ \&}]{t\+\_\+M }\end{DoxyParamCaption})}
+
+Converts a complex matrix to a real one
+
+
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+M,complex} & matrix to cast\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Real matrix
+\end{DoxyReturn}
+\mbox{\Hypertarget{utilities_8hpp_a852c9ce0240db7d70c5cb632927e99e6}\label{utilities_8hpp_a852c9ce0240db7d70c5cb632927e99e6}} 
+\index{utilities.hpp@{utilities.hpp}!eigen\_sqrt@{eigen\_sqrt}}
+\index{eigen\_sqrt@{eigen\_sqrt}!utilities.hpp@{utilities.hpp}}
+\doxysubsubsection{\texorpdfstring{eigen\_sqrt()}{eigen\_sqrt()}}
+{\footnotesize\ttfamily template$<$typename T , u\+Int N$>$ \\
+void eigen\+\_\+sqrt (\begin{DoxyParamCaption}\item[{Eigen\+::\+Matrix$<$ T, N, 1 $>$ \&}]{t\+\_\+eigenval }\end{DoxyParamCaption})}
+
+Take the square root of t\+\_\+eigenval
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em N} & lenght of the vector(number of eigenvalues) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+eigenval} & vector that contains the eigenvalues\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+modiphy t\+\_\+eigenval itself
+\end{DoxyNote}
+\mbox{\Hypertarget{utilities_8hpp_aae7650c3482646fc91ddc2927f1ae9dc}\label{utilities_8hpp_aae7650c3482646fc91ddc2927f1ae9dc}} 
+\index{utilities.hpp@{utilities.hpp}!EuclideanNorm@{EuclideanNorm}}
+\index{EuclideanNorm@{EuclideanNorm}!utilities.hpp@{utilities.hpp}}
+\doxysubsubsection{\texorpdfstring{EuclideanNorm()}{EuclideanNorm()}}
+{\footnotesize\ttfamily template$<$typename T , u\+Int Row, u\+Int Col$>$ \\
+T Euclidean\+Norm (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&}]{t\+\_\+M }\end{DoxyParamCaption})}
+
+Compute the eucliden norm of the matrix
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em R} & number of rows of the input matrix \\
+\hline
+{\em C} & number of columns of the input matrix\\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+M} & matrix from which compute the euclidean norm\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+euclidean norm of the matrix
+\end{DoxyReturn}
+\mbox{\Hypertarget{utilities_8hpp_a6d2e8a58826ab6a68c8555c5d961be77}\label{utilities_8hpp_a6d2e8a58826ab6a68c8555c5d961be77}} 
+\index{utilities.hpp@{utilities.hpp}!frobenius\_norm@{frobenius\_norm}}
+\index{frobenius\_norm@{frobenius\_norm}!utilities.hpp@{utilities.hpp}}
+\doxysubsubsection{\texorpdfstring{frobenius\_norm()}{frobenius\_norm()}}
+{\footnotesize\ttfamily template$<$typename T , u\+Int Row, u\+Int Col$>$ \\
+T frobenius\+\_\+norm (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&}]{t\+\_\+M }\end{DoxyParamCaption})}
+
+Compute the frobenius norm of the matrix t\+\_\+M
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & type of matrix entires, can be double or float \\
+\hline
+{\em Row} & number of rows of the matrix \\
+\hline
+{\em Col} & number of columns of the matrix\\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+M} & matrix from which compute the frobenius norm\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+frobenius norm of t\+\_\+M
+\end{DoxyReturn}
+\mbox{\Hypertarget{utilities_8hpp_a3beb9a9b4890cb63dce7061422d5cabe}\label{utilities_8hpp_a3beb9a9b4890cb63dce7061422d5cabe}} 
+\index{utilities.hpp@{utilities.hpp}!hadamard@{hadamard}}
+\index{hadamard@{hadamard}!utilities.hpp@{utilities.hpp}}
+\doxysubsubsection{\texorpdfstring{hadamard()}{hadamard()}}
+{\footnotesize\ttfamily template$<$typename T , typename X , u\+Int Row, u\+Int Col$>$ \\
+Eigen\+::\+Matrix$<$ T, Row, Col $>$ hadamard (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&}]{t\+\_\+A,  }\item[{const Eigen\+::\+Matrix$<$ X, Row, Col $>$ \&}]{t\+\_\+B }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+the hadamart product between matrix t\+\_\+A and matrix t\+\_\+B.
+\end{DoxyReturn}
+\mbox{\Hypertarget{utilities_8hpp_a586d4b155fba010e39f070a152711af7}\label{utilities_8hpp_a586d4b155fba010e39f070a152711af7}} 
+\index{utilities.hpp@{utilities.hpp}!set\_zero@{set\_zero}}
+\index{set\_zero@{set\_zero}!utilities.hpp@{utilities.hpp}}
+\doxysubsubsection{\texorpdfstring{set\_zero()}{set\_zero()}}
+{\footnotesize\ttfamily template$<$typename T , u\+Int N$>$ \\
+void set\+\_\+zero (\begin{DoxyParamCaption}\item[{Eigen\+::\+Matrix$<$ T, N, 1 $>$ \&}]{t\+\_\+eigenval,  }\item[{\mbox{\hyperlink{_e_d_matrix_8hpp_a87d141052bcd5ec8a80812a565c70369}{u\+Int}}}]{n }\end{DoxyParamCaption})}
+
+Set to zero all the N-\/n lowest values
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em N,lenght} & of the vector(number of eigenvalues) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+eigenval} & vector that contains the eigenvalues \\
+\hline
+{\em n} & \+: number of eigenvalues to not set to 0\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Moduphy t\+\_\+eigenvec itself
+\end{DoxyNote}
+\mbox{\Hypertarget{utilities_8hpp_ae9405ff0a09025162608ddc248480505}\label{utilities_8hpp_ae9405ff0a09025162608ddc248480505}} 
+\index{utilities.hpp@{utilities.hpp}!sort@{sort}}
+\index{sort@{sort}!utilities.hpp@{utilities.hpp}}
+\doxysubsubsection{\texorpdfstring{sort()}{sort()}}
+{\footnotesize\ttfamily template$<$typename T , u\+Int N$>$ \\
+void sort (\begin{DoxyParamCaption}\item[{Eigen\+::\+Matrix$<$ T, N, 1 $>$ \&}]{t\+\_\+eigenval,  }\item[{Eigen\+::\+Matrix$<$ T, N, N $>$ \&}]{t\+\_\+eigenvec }\end{DoxyParamCaption})}
+
+Sort the eigenvalues absolute value in decreasin order
+
+
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+eigenval} & eingevalues to sort \\
+\hline
+{\em t\+\_\+eigenvec} & eigenvectors corresponding to the eigenvalues\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+modiphy eigenvectors and eigenvalues themselfs
+\end{DoxyNote}
+\mbox{\Hypertarget{utilities_8hpp_ac0032b87fde8ad093ac6097ac81d8890}\label{utilities_8hpp_ac0032b87fde8ad093ac6097ac81d8890}} 
+\index{utilities.hpp@{utilities.hpp}!swap@{swap}}
+\index{swap@{swap}!utilities.hpp@{utilities.hpp}}
+\doxysubsubsection{\texorpdfstring{swap()}{swap()}}
+{\footnotesize\ttfamily template$<$typename T , u\+Int N$>$ \\
+void swap (\begin{DoxyParamCaption}\item[{Eigen\+::\+Matrix$<$ T, N, 1 $>$ \&}]{t\+\_\+eigenval,  }\item[{Eigen\+::\+Matrix$<$ T, N, N $>$ \&}]{t\+\_\+eigenvec,  }\item[{\mbox{\hyperlink{_e_d_matrix_8hpp_a87d141052bcd5ec8a80812a565c70369}{u\+Int}}}]{i,  }\item[{\mbox{\hyperlink{_e_d_matrix_8hpp_a87d141052bcd5ec8a80812a565c70369}{u\+Int}}}]{j }\end{DoxyParamCaption})}
+
+miscellanea.\+hpp provides templates function to work with Matrix 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type of entries, can be float or double \\
+\hline
+\end{DoxyTemplParams}
+Swap the ith and the jth eigenvalues and the corresponding eigenvectors
+
+
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+eigenval} & the vector that contains the eigenvalues to swap \\
+\hline
+{\em t\+\_\+eigenvec} & eigenvectors corresponding to the eingenvalues \\
+\hline
+{\em i} & position of the first value to swap \\
+\hline
+{\em j} & position of the first value to swap\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+this function modiphy t\+\_\+eigenval, t\+\_\+eigenvec themselfs
+\end{DoxyNote}
+\mbox{\Hypertarget{utilities_8hpp_a5f02c9aa99a9b23562f9f8a3a63b42f9}\label{utilities_8hpp_a5f02c9aa99a9b23562f9f8a3a63b42f9}} 
+\index{utilities.hpp@{utilities.hpp}!write@{write}}
+\index{write@{write}!utilities.hpp@{utilities.hpp}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily template$<$typename T , u\+Int Row, u\+Int Col$>$ \\
+void write (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&}]{t\+\_\+M,  }\item[{std\+::string}]{filename }\end{DoxyParamCaption})}
+
+Write matrix in filename
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & type of entries of matrix, can be float or double \\
+\hline
+{\em Row} & number of rows of the matrix \\
+\hline
+{\em Col} & number of columns of the matrix\\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+M} & matrix to Write \\
+\hline
+{\em filename} & name of the file\\
+\hline
+\end{DoxyParams}

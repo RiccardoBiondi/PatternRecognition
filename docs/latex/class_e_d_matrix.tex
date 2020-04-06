@@ -54,8 +54,6 @@ void \mbox{\hyperlink{class_e_d_matrix_af5160520998f4281214a3c56d2a2ae9e}{trim}}
 Eigen\+::\+Matrix$<$ T, N, N $>$ \mbox{\hyperlink{class_e_d_matrix_a653257bc91f1154ee93305803162d779}{gc\+\_\+matrix}} () const
 \item 
 Eigen\+::\+Matrix$<$ T, N, N $>$ \mbox{\hyperlink{class_e_d_matrix_a78d25c8f99e0e6ca5ad4b8275eb00822}{gramm}} () const
-\item 
-T \mbox{\hyperlink{class_e_d_matrix_a243ccbd05243c89b6d3c728c6e30e715}{frobenius\+\_\+norm}} ()
 \end{DoxyCompactItemize}
 
 
@@ -107,24 +105,12 @@ Parametric Constructor
 \index{EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}!EDMatrix@{EDMatrix}}
 \index{EDMatrix@{EDMatrix}!EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}}
 \doxysubsubsection{\texorpdfstring{EDMatrix()}{EDMatrix()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily template$<$typename T, u\+Int N, u\+Int d$>$ \\
+{\footnotesize\ttfamily template$<$typename T , u\+Int N, u\+Int d$>$ \\
 \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$\+::\mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \&}]{o\+\_\+\+E\+DM }\end{DoxyParamCaption})}
 
 Copy constructor
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{class_e_d_matrix_a243ccbd05243c89b6d3c728c6e30e715}\label{class_e_d_matrix_a243ccbd05243c89b6d3c728c6e30e715}} 
-\index{EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}!frobenius\_norm@{frobenius\_norm}}
-\index{frobenius\_norm@{frobenius\_norm}!EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}}
-\doxysubsubsection{\texorpdfstring{frobenius\_norm()}{frobenius\_norm()}}
-{\footnotesize\ttfamily template$<$typename T , u\+Int N, u\+Int d$>$ \\
-T \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$\+::frobenius\+\_\+norm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-Perform the frombenius norm of the E\+DM with missing entires
-
-\begin{DoxyReturn}{Returns}
-frobenius norm
-\end{DoxyReturn}
 \mbox{\Hypertarget{class_e_d_matrix_a653257bc91f1154ee93305803162d779}\label{class_e_d_matrix_a653257bc91f1154ee93305803162d779}} 
 \index{EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}!gc\_matrix@{gc\_matrix}}
 \index{gc\_matrix@{gc\_matrix}!EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}}
@@ -273,7 +259,7 @@ the element of the euclidean distance matrix in row Row and column Col
 \index{EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}!operator+@{operator+}}
 \index{operator+@{operator+}!EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}}
 \doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
-{\footnotesize\ttfamily template$<$typename T, u\+Int N, u\+Int d$>$ \\
+{\footnotesize\ttfamily template$<$typename T , u\+Int N, u\+Int d$>$ \\
 \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \&}]{t\+\_\+\+E\+DM }\end{DoxyParamCaption})}
 
 Perform the sum of two euclidean distance matrix @peram this First Adder 
@@ -288,7 +274,7 @@ the sum of two euclidean distance matrix
 \index{EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}!operator-\/@{operator-\/}}
 \index{operator-\/@{operator-\/}!EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}}
 \doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}}
-{\footnotesize\ttfamily template$<$typename T, u\+Int N, u\+Int d$>$ \\
+{\footnotesize\ttfamily template$<$typename T , u\+Int N, u\+Int d$>$ \\
 \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$\+::operator-\/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \&}]{t\+\_\+\+E\+DM }\end{DoxyParamCaption})}
 
 Perform the sum of two euclidean distance matrix @peram this First Adder 
@@ -303,7 +289,7 @@ the sum of two euclidean distance matrix
 \index{EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}!operator=@{operator=}}
 \index{operator=@{operator=}!EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}}
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
-{\footnotesize\ttfamily template$<$typename T, u\+Int N, u\+Int d$>$ \\
+{\footnotesize\ttfamily template$<$typename T , u\+Int N, u\+Int d$>$ \\
 \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \&}]{t\+\_\+\+E\+D\+Matrix }\end{DoxyParamCaption})}
 
 Copy assignement operator. set E\+DM, Noise and M\+Ask equal to t\+\_\+\+E\+DM ones \begin{DoxyReturn}{Returns}
@@ -313,7 +299,7 @@ $\ast$this
 \index{EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}!setEDM@{setEDM}}
 \index{setEDM@{setEDM}!EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}}
 \doxysubsubsection{\texorpdfstring{setEDM()}{setEDM()}}
-{\footnotesize\ttfamily template$<$typename T, u\+Int N, u\+Int d$>$ \\
+{\footnotesize\ttfamily template$<$typename T , u\+Int N, u\+Int d$>$ \\
 void \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$\+::set\+E\+DM (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Matrix$<$ T, N, N $>$ \&}]{t\+\_\+\+E\+DM }\end{DoxyParamCaption})}
 
 Set m\+\_\+\+E\+DM to t\+\_\+\+E\+DM 
@@ -345,7 +331,7 @@ Set m\+\_\+\+Mask to t\+\_\+\+Mask
 \index{EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}!setNoise@{setNoise}}
 \index{setNoise@{setNoise}!EDMatrix$<$ T, N, d $>$@{EDMatrix$<$ T, N, d $>$}}
 \doxysubsubsection{\texorpdfstring{setNoise()}{setNoise()}}
-{\footnotesize\ttfamily template$<$typename T, u\+Int N, u\+Int d$>$ \\
+{\footnotesize\ttfamily template$<$typename T , u\+Int N, u\+Int d$>$ \\
 void \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$\+::set\+Noise (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Matrix$<$ T, N, N $>$ \&}]{t\+\_\+\+Noise }\end{DoxyParamCaption})}
 
 Set m\+\_\+\+Noise to t\+\_\+\+Noise 

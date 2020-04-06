@@ -17,6 +17,8 @@ Eigen\+::\+Matrix$<$ T, d, N $>$ \mbox{\hyperlink{class_procrustes_a5eb72a653693
 \item 
 Eigen\+::\+Matrix$<$ T, d, N $>$ \mbox{\hyperlink{class_procrustes_af45a41bdb90f8cebcf9733770162bafb}{get\+New\+Configuration}} () const
 \item 
+Eigen\+::\+Matrix$<$ T, d, N $>$ \mbox{\hyperlink{class_procrustes_a956345a9aba96bb09f9b7f0254fe3340}{Residual}} () const
+\item 
 Eigen\+::\+Matrix$<$ T, d, d $>$ \mbox{\hyperlink{class_procrustes_a88f074a4d73d13b6693a4d8f94d59184}{Rotation}} () const
 \item 
 T \mbox{\hyperlink{class_procrustes_aef8b72bfcbc6fbe835ad8d1026f0b96e}{Scale}} () const
@@ -86,17 +88,14 @@ Copy constructor
 {\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
 void \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::Centering (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Center the two set of points by using the centering matrix $C = I - -\frac{1}{N}11^T$ \begin{DoxyNote}{Note}
-Modiphy m\+\_\+\+Reference and m\+\_\+\+Configuration themself
-\end{DoxyNote}
 \mbox{\Hypertarget{class_procrustes_a611d78a81fd48be5d41ae8ea2d5052ef}\label{class_procrustes_a611d78a81fd48be5d41ae8ea2d5052ef}} 
 \index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!FullOPA@{FullOPA}}
 \index{FullOPA@{FullOPA}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
 \doxysubsubsection{\texorpdfstring{FullOPA()}{FullOPA()}}
-{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+{\footnotesize\ttfamily template$<$typename T, unsigned int N, unsigned int d$>$ \\
 void \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::Full\+O\+PA (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Perform the Full Ordinary \mbox{\hyperlink{class_procrustes}{Procrustes}} Analysis\mbox{\Hypertarget{class_procrustes_a5eb72a65369334c2f800e66d7273008f}\label{class_procrustes_a5eb72a65369334c2f800e66d7273008f}} 
+\mbox{\Hypertarget{class_procrustes_a5eb72a65369334c2f800e66d7273008f}\label{class_procrustes_a5eb72a65369334c2f800e66d7273008f}} 
 \index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!getConfiguration@{getConfiguration}}
 \index{getConfiguration@{getConfiguration}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
 \doxysubsubsection{\texorpdfstring{getConfiguration()}{getConfiguration()}}
@@ -132,12 +131,19 @@ The reference set of points
 \index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!Normalize@{Normalize}}
 \index{Normalize@{Normalize}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
 \doxysubsubsection{\texorpdfstring{Normalize()}{Normalize()}}
-{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+{\footnotesize\ttfamily template$<$typename T, unsigned int N, unsigned int d$>$ \\
 void \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::Normalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Normilize the two set of points by using the Euclidean Norm \begin{DoxyNote}{Note}
-Modiphy m\+\_\+\+Configuration and m\+\_\+\+Reference themself
-\end{DoxyNote}
+\mbox{\Hypertarget{class_procrustes_a956345a9aba96bb09f9b7f0254fe3340}\label{class_procrustes_a956345a9aba96bb09f9b7f0254fe3340}} 
+\index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!Residual@{Residual}}
+\index{Residual@{Residual}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}
+\doxysubsubsection{\texorpdfstring{Residual()}{Residual()}}
+{\footnotesize\ttfamily template$<$typename T , unsigned int N, unsigned int d$>$ \\
+Eigen\+::\+Matrix$<$ T, d, N $>$ \mbox{\hyperlink{class_procrustes}{Procrustes}}$<$ T, N, d $>$\+::Residual (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+Residual matrix (difference between Reference and New\+Configuration)
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_procrustes_a88f074a4d73d13b6693a4d8f94d59184}\label{class_procrustes_a88f074a4d73d13b6693a4d8f94d59184}} 
 \index{Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}!Rotation@{Rotation}}
 \index{Rotation@{Rotation}!Procrustes$<$ T, N, d $>$@{Procrustes$<$ T, N, d $>$}}

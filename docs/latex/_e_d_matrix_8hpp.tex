@@ -3,8 +3,8 @@
 {\ttfamily \#include $<$eigen\textbackslash{}\+Eigen\textbackslash{}\+Eigenvalues$>$}\newline
 {\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
-{\ttfamily \#include \char`\"{}miscellanea.\+hpp\char`\"{}}\newline
-\doxysubsection*{Classes}
+{\ttfamily \#include \char`\"{}utilities.\+hpp\char`\"{}}\newline
+\doxysubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
 class \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix$<$ T, N, d $>$}}
@@ -17,10 +17,6 @@ typedef unsigned int \mbox{\hyperlink{_e_d_matrix_8hpp_a87d141052bcd5ec8a80812a5
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$typename T , typename X , u\+Int Row, u\+Int Col$>$ }\\Eigen\+::\+Matrix$<$ T, Row, Col $>$ \mbox{\hyperlink{_e_d_matrix_8hpp_a3beb9a9b4890cb63dce7061422d5cabe}{hadamard}} (const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&t\+\_\+A, const Eigen\+::\+Matrix$<$ X, Row, Col $>$ \&t\+\_\+B)
-\item 
-{\footnotesize template$<$typename T , u\+Int Row, u\+Int Col$>$ }\\T \mbox{\hyperlink{_e_d_matrix_8hpp_a6d2e8a58826ab6a68c8555c5d961be77}{frobenius\+\_\+norm}} (const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&t\+\_\+M)
-\item 
 {\footnotesize template$<$typename T , u\+Int N, u\+Int d$>$ }\\\mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \mbox{\hyperlink{_e_d_matrix_8hpp_a9ead0bc343f5acabbef9720d77358cc4}{E\+V\+Treshold}} (\mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ t\+\_\+\+E\+DM, unsigned int r)
 \item 
 {\footnotesize template$<$typename T , u\+Int N, u\+Int d$>$ }\\Eigen\+::\+Matrix$<$ T, d, N $>$ \mbox{\hyperlink{_e_d_matrix_8hpp_ae41ec335c1d953c7c71352c5fbd7aa63}{Classical\+M\+DS}} (const \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \&t\+\_\+\+E\+DM)
@@ -29,7 +25,7 @@ typedef unsigned int \mbox{\hyperlink{_e_d_matrix_8hpp_a87d141052bcd5ec8a80812a5
 \item 
 {\footnotesize template$<$typename T , u\+Int N, u\+Int d$>$ }\\\mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \mbox{\hyperlink{_e_d_matrix_8hpp_ae69011bec6ee57f62afdaed9445b3602}{Rank\+Complete\+E\+DM}} (const \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \&t\+\_\+\+E\+DM, T M\+A\+X\+\_\+\+T\+OL, unsigned int M\+A\+X\+\_\+\+I\+T\+ER)
 \item 
-{\footnotesize template$<$typename T , u\+Int N, u\+Int d$>$ }\\\mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \mbox{\hyperlink{_e_d_matrix_8hpp_ab18343e1f63b66d4903d8e39822d6453}{Opt\+Space}} (const \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \&t\+\_\+\+E\+DM)
+{\footnotesize template$<$typename T , u\+Int N, u\+Int d$>$ }\\\mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \mbox{\hyperlink{_e_d_matrix_8hpp_a5781d49a4f2af97f46791d2f02f92437}{Opt\+Space}} (const \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \&t\+\_\+\+E\+DM)
 \end{DoxyCompactItemize}
 
 
@@ -79,34 +75,12 @@ This function is usefull inside the Rank Complete Edm. Perform and Eigenvalues d
 {\em t\+\_\+\+E\+DM} & Euclidian Distance matrix in which we perform the treshold @params r Number of Eigenvalues to not kepp on zero\\
 \hline
 \end{DoxyParams}
-@returs \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}\mbox{\Hypertarget{_e_d_matrix_8hpp_a6d2e8a58826ab6a68c8555c5d961be77}\label{_e_d_matrix_8hpp_a6d2e8a58826ab6a68c8555c5d961be77}} 
-\index{EDMatrix.hpp@{EDMatrix.hpp}!frobenius\_norm@{frobenius\_norm}}
-\index{frobenius\_norm@{frobenius\_norm}!EDMatrix.hpp@{EDMatrix.hpp}}
-\doxysubsubsection{\texorpdfstring{frobenius\_norm()}{frobenius\_norm()}}
-{\footnotesize\ttfamily template$<$typename T , u\+Int Row, u\+Int Col$>$ \\
-T frobenius\+\_\+norm (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&}]{t\+\_\+M }\end{DoxyParamCaption})}
-
-Compute the frobenius norm of the matrix t\+\_\+M
-
-\begin{DoxyReturn}{Returns}
-frobenius norm of t\+\_\+M
-\end{DoxyReturn}
-\mbox{\Hypertarget{_e_d_matrix_8hpp_a3beb9a9b4890cb63dce7061422d5cabe}\label{_e_d_matrix_8hpp_a3beb9a9b4890cb63dce7061422d5cabe}} 
-\index{EDMatrix.hpp@{EDMatrix.hpp}!hadamard@{hadamard}}
-\index{hadamard@{hadamard}!EDMatrix.hpp@{EDMatrix.hpp}}
-\doxysubsubsection{\texorpdfstring{hadamard()}{hadamard()}}
-{\footnotesize\ttfamily template$<$typename T , typename X , u\+Int Row, u\+Int Col$>$ \\
-Eigen\+::\+Matrix$<$ T, Row, Col $>$ hadamard (\begin{DoxyParamCaption}\item[{const Eigen\+::\+Matrix$<$ T, Row, Col $>$ \&}]{t\+\_\+A,  }\item[{const Eigen\+::\+Matrix$<$ X, Row, Col $>$ \&}]{t\+\_\+B }\end{DoxyParamCaption})}
-
-\begin{DoxyReturn}{Returns}
-the hadamart product between matrix t\+\_\+A and matrix t\+\_\+B.
-\end{DoxyReturn}
-\mbox{\Hypertarget{_e_d_matrix_8hpp_ab18343e1f63b66d4903d8e39822d6453}\label{_e_d_matrix_8hpp_ab18343e1f63b66d4903d8e39822d6453}} 
+@returs \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}\mbox{\Hypertarget{_e_d_matrix_8hpp_a5781d49a4f2af97f46791d2f02f92437}\label{_e_d_matrix_8hpp_a5781d49a4f2af97f46791d2f02f92437}} 
 \index{EDMatrix.hpp@{EDMatrix.hpp}!OptSpace@{OptSpace}}
 \index{OptSpace@{OptSpace}!EDMatrix.hpp@{EDMatrix.hpp}}
 \doxysubsubsection{\texorpdfstring{OptSpace()}{OptSpace()}}
 {\footnotesize\ttfamily template$<$typename T , u\+Int N, u\+Int d$>$ \\
-\mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$T,N,d$>$ Opt\+Space (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \&}]{t\+\_\+\+E\+DM }\end{DoxyParamCaption})}
+\mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ Opt\+Space (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_e_d_matrix}{E\+D\+Matrix}}$<$ T, N, d $>$ \&}]{t\+\_\+\+E\+DM }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{_e_d_matrix_8hpp_ae69011bec6ee57f62afdaed9445b3602}\label{_e_d_matrix_8hpp_ae69011bec6ee57f62afdaed9445b3602}} 
 \index{EDMatrix.hpp@{EDMatrix.hpp}!RankCompleteEDM@{RankCompleteEDM}}
