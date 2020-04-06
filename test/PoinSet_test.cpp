@@ -30,7 +30,7 @@ TEMPLATE_TEST_CASE("Testing Constructors","[one][template]",double){
   //
   //If I add the noise and mask
   //
-  P.AddMissEntires();
+  P.AddMissEntries();
   P.AddNoise(0.5);
   REQUIRE(P.getEDM().getMask() != Eigen::Matrix<int,100,100>::Ones());
   REQUIRE(P.getEDM().getNoise() !=

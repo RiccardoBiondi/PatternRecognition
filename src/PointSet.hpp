@@ -26,8 +26,8 @@ class PointSet{
 
   private:
 
-    Eigen::Matrix<N, d, N> m_point_set;
-    EDMatrix<Scalar,N,d> m_EDM;
+    Eigen::Matrix<T, d, N> m_point_set;
+    EDMatrix<T,N,d> m_EDM;
 
     std::random_device rd;//seed
 
@@ -44,7 +44,7 @@ class PointSet{
     EDMatrix<T,N,d> getEDM() const;
 
     void AddNoise(T sdev);
-    void AddMissEntires();
+    void AddMissEntries();
 };
 
 //
@@ -155,7 +155,7 @@ EDMatrix<T,N,d> PointSet<T,N,d>:: getEDM() const {
 
 
 template<typename T, uInt N, uInt d>
-void PointSet<T,N,d>:: AddMissEntires(){
+void PointSet<T,N,d>:: AddMissEntries(){
 
   /**
   *Add a Mask to the EDM.
