@@ -13,7 +13,8 @@
  *  EDMAtrix_test
  *
  *  ----------------------------------------------------------
- * This filecontains all the test performed to check EDMatrix.hpp functions and classes
+ * This filecontains all the test performed to check EDMatrix.hpp functions
+ *and classes
  *  Requiriments:
  *
  * Catch v2.11.0
@@ -262,30 +263,7 @@ SCENARIO("gc_matrix, gramm, hadamard and frobenius norm ", "[four]"){
         REQUIRE(D.gc_matrix() == J);
         REQUIRE(D.gramm() == G);
       }
-
-    WHEN("Set the mask, and give a control matrix an norm"){
-      Eigen:: Matrix<int,4,4> W;
-      Eigen:: Matrix<double,4,4> S;
-      W << 0,1,1,0,
-          1,1,1,1,
-          1,1,0,0,
-          0,1,0,0;
-      S << 0   , 8649., 6724., 0    ,
-          8649., 0.   , 2704., 3600.,
-          6724., 2704., 0.   , 0.   ,
-          0.   , 3600., 0.   , 0.   ;
-
-      D.setMask(W);
-
-      Eigen::Matrix<double,4,4> R;
-      R = S*S.transpose();
-      double norm = std::sqrt(R.trace());
-          THEN("The method return the correct result"){
-            REQUIRE(hadamard<double,int,4,4>(A,W)==S );
-            REQUIRE(D.frobenius_norm() == norm);
-            REQUIRE(frobenius_norm<double,4,4>(hadamard<double,int,4,4>(A,W)) == norm);
-          }
-    }}
+    }
   }
 }
 
