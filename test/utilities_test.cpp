@@ -2,10 +2,11 @@
 #include "catch.hpp"
 
 
-#include "C:\Users\Riccardo\github\PatternRecognition\src\miscellanea.hpp"
+#include "C:\Users\Riccardo\github\PatternRecognition\src\utilities.hpp"
 
 #include<typeinfo>
 #include<complex>
+#include<cmath>
 /*
  *  miscellanea_test
  *
@@ -103,5 +104,42 @@ TEMPLATE_TEST_CASE("casting test", "[three][template]", float, double){
 
   //if cast
   REQUIRE(typeid(cast_real<TestType,4,1>(vec)).name()== typeid(Eigen::Matrix<TestType,4,1>).name());
+
+}
+
+
+
+
+TEMPLATE_TEST_CASE("frobenius and hadamrd","[four][template]",float,double){
+
+    Eigen::Matrix<TestType,4,4> A;
+    Eigen:: Matrix<int,4,4> W;
+    Eigen:: Matrix<TestType,4,4> S;
+
+
+    A << 0.    , 8649., 6724.,17689.,
+         8649. , 0.   , 2704., 3600.,
+         6724. , 2704.,0.    ,12321.,
+         17689., 3600.,12321., 0.   ;
+
+    W << 0,1,1,0,
+         1,1,1,1,
+         1,1,0,0,
+         0,1,0,0;
+
+    S << 0    , 8649., 6724., 0    ,
+         8649., 0.   , 2704., 3600.,
+         6724., 2704., 0.   , 0.   ,
+         0.   , 3600., 0.   , 0.   ;
+
+
+
+    Eigen::Matrix<TestType,4,4> R;
+    R = S*S.transpose();
+    double norm = std::sqrt(R.trace());
+
+    REQUIRE(hadamard<TestType,int,4,4>(A,W)==S );
+    REQUIRE(frobenius_norm<TestType,4,4>(S) == norm);
+    REQUIRE(frobenius_norm<TestType,4,4>(hadamard<TestType,int,4,4>(A,W)) == norm);
 
 }
